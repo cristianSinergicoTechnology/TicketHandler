@@ -8,8 +8,8 @@ namespace TicketHandler.utils
 {
     internal class Commands
     {
-        public static readonly byte[] ESC = Encoding.Default.GetBytes(27.ToString());
-        public static readonly byte[] GS = Encoding.UTF8.GetBytes(29.ToString());
-        public static readonly byte[] SKIP_LINE = Encoding.UTF8.GetBytes(13.ToString());
+        public static readonly byte[] ESC = Encoding.Default.GetBytes(((char)27).ToString());
+        public static readonly byte[] GS = Encoding.UTF8.GetBytes(((char)29).ToString());
+        public static readonly byte[] SKIP_LINE = Encoding.UTF8.GetBytes(((char)13).ToString());
     }
 }

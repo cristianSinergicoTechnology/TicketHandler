@@ -8,26 +8,26 @@ namespace TicketHandler.modelo
 {
     internal class DocumentPayment
     {
-        string IDTienda { get; set; }
-        string IDCaja { get; set; }
-        string IDTicket { get; set; }
-        string IDCobro { get; set; }
-        string IDAnulacion { get; set; }
-        string? IDCierre { get; set; } = null;
-        string TipoCobro { get; set; }
-        Decimal Importe { get; set; }
-        Decimal? Entregado { get; set; } = null;
-        Decimal? Cambio { get; set; } = null;
-        string? ViaPago { get; set; } = null;
-        int EntryViaPago { get; set; }
-        string EmpID { get; set; }
-        string CreateDate { get; set; }
-        string CreateTime { get; set; }
-        string UpdateDate { get; set; }
-        string UpdateTime { get; set; }
-        string? TipoDocumento { get; set; } = null;
-        string PromoID { get; set; } = "";
-        int PromoVecesAplicada { get; set; } = 0;
+        public string IDTienda { get; set; }
+        public string IDCaja { get; set; }
+        public string IDTicket { get; set; }
+        public string IDCobro { get; set; }
+        public string IDAnulacion { get; set; }
+        public string? IDCierre { get; set; } = null;
+        public string TipoCobro { get; set; }
+        public Decimal Importe { get; set; }
+        public Decimal? Entregado { get; set; } = null;
+        public Decimal? Cambio { get; set; } = null;
+        public string? ViaPago { get; set; } = null;
+        public int EntryViaPago { get; set; }
+        public string EmpID { get; set; }
+        public string CreateDate { get; set; }
+        public string CreateTime { get; set; }
+        public string UpdateDate { get; set; }
+        public string UpdateTime { get; set; }
+        public string? TipoDocumento { get; set; } = null;
+        public string PromoID { get; set; } = "";
+        public int PromoVecesAplicada { get; set; } = 0;
 
     }
 }

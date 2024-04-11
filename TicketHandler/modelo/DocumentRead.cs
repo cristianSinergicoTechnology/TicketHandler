@@ -8,18 +8,18 @@ namespace TicketHandler.modelo
 {
     internal class DocumentRead
     {
-        string IDTicket { get; set; }
-        int RowNum { get; set; }
-        string IDLectura { get; set; }
-        string ItemCode { get; set; }
-        int Cantidad { get; set; }
-        int UoM { get; set; }
-        string Codebar { get; set; }
-        string TipoLectura { get; set; }
-        string EmpID { get; set; }
-        string CreateDate { get; set; }
-        string CreateTime { get; set; }
-        string UpdateDate { get; set; }
-        string UpdateTime { get; set; }
+        public string IDTicket { get; set; }
+        public int RowNum { get; set; }
+        public string IDLectura { get; set; }
+        public string ItemCode { get; set; }
+        public int Cantidad { get; set; }
+        public int UoM { get; set; }
+        public string Codebar { get; set; }
+        public string TipoLectura { get; set; }
+        public string EmpID { get; set; }
+        public string CreateDate { get; set; }
+        public string CreateTime { get; set; }
+        public string UpdateDate { get; set; }
+        public string UpdateTime { get; set; }
     }
 }

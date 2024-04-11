@@ -8,30 +8,31 @@ namespace TicketHandler.modelo
 {
     internal class DocumentHeader
     {
-        string IDTienda { get; set; }
-        string IDCaja { get; set; }
-        string TipoDocumento { get; set; }
-        int ObjType { get; set; }
-        string EmpID { get; set; }
-        string Terminal { get; set; }
-        string IDTicket { get; set; }
-        string FromWarehouseCode { get; set; }
-        string ToWarehouseCode { get; set; }
-        string CardCodeFactura { get; set; }
-        string? ShipTo { get; set; }
-        string CardCode { get; set; }
-        string bReplicaFactura { get; set; }
-        Decimal? Importe { get; set; }
-        Decimal? ImporteImpuesto { get; set; }
-        Decimal? ImporteTotal { get; set; } = default;
-        Decimal? ImporteCobrado { get; set; } = default;
-        string CreateDate { get; set; }
-        string CreateTime { get; set; }
-        string UpdateDate { get; set; }
-        string UpdateTime { get; set; }
-        string DocDueDate { get; set; } = "";
-        string B_Cobrado { get; set; }
-        string WhsA { get; set; } = "";
-        string WhsC { get; set; } = "";
+        public string IDTienda { get; set; }
+        public string IDCaja { get; set; }
+        public string TipoDocumento { get; set; }
+        public int ObjType { get; set; }
+        public string EmpID { get; set; }
+        public string Terminal { get; set; }
+        public string IDTicket { get; set; }
+        public string FromWarehouseCode { get; set; }
+        public string ToWarehouseCode { get; set; }
+        public string CardCodeFactura { get; set; }
+        public string? ShipTo { get; set; }
+        public string CardCode { get; set; }
+        public string bReplicaFactura { get; set; }
+        public Decimal? Importe { get; set; }
+        public Decimal? ImporteImpuesto { get; set; }
+        public Decimal? ImporteTotal { get; set; } = default;
+        public Decimal? ImporteCobrado { get; set; } = default;
+        public Decimal? ImportePromocion { get; set; } = default;
+        public string CreateDate { get; set; }
+        public string CreateTime { get; set; }
+        public string UpdateDate { get; set; }
+        public string UpdateTime { get; set; }
+        public string DocDueDate { get; set; } = "";
+        public string B_Cobrado { get; set; }
+        public string WhsA { get; set; } = "";
+        public string WhsC { get; set; } = "";
     }
 }

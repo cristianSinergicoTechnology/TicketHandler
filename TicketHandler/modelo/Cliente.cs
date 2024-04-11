@@ -8,33 +8,33 @@ namespace TicketHandler.modelo
 {
     internal class Cliente
     {
-        string CardCode { get; set; } = "";
-        string CardName { get; set; } = "";
-        string Address { get; set; } = "";
-        string ZipCode { get; set; } = "";
-        string Phone1 { get; set; } = "";
-        string Phone2 { get; set; } = "";
-        string ContactPerson { get; set; } = "";
-        string Notes { get; set; } = "";
-        Decimal Discount { get; set; } = default;
-        string FederalTaxId { get; set; } = "";
-        int PricesListNum { get; set; } = 0;
-        string Celular { get; set; } = "";
-        string City { get; set; } = "";
-        string County { get; set; } = "";
-        string Country { get; set; } = "";
-        string EmailAddress { get; set; } = "";
-        string CardForeignName { get; set; } = "";
-        string PaymentMethodCode { get; set; } = "";
-        string Territory { get; set; } = "";
-        bool bTienda { get; set; } = false;
-        string UpdateDate { get; set; } = "";
-        string UpdateTime { get; set; } = "";
-        string U_SEITienda { get; set; } = "";
-        string U_SEIUsarTab { get; set; } = "";
-        Decimal Puntos { get; set; } = new Decimal(3);
-        string? LOPDfirm { get; set; } = null;
-        string? LOPDdate { get; set; } = null;
-        string? LOPDtime { get; set; } = null;
+        public string CardCode { get; set; } = "";
+        public string CardName { get; set; } = "";
+        public string Address { get; set; } = "";
+        public string ZipCode { get; set; } = "";
+        public string Phone1 { get; set; } = "";
+        public string Phone2 { get; set; } = "";
+        public string ContactPerson { get; set; } = "";
+        public string Notes { get; set; } = "";
+        public Decimal Discount { get; set; } = default;
+        public string FederalTaxId { get; set; } = "";
+        public int PricesListNum { get; set; } = 0;
+        public string Celular { get; set; } = "";
+        public string City { get; set; } = "";
+        public string County { get; set; } = "";
+        public string Country { get; set; } = "";
+        public string EmailAddress { get; set; } = "";
+        public string CardForeignName { get; set; } = "";
+        public string PaymentMethodCode { get; set; } = "";
+        public string Territory { get; set; } = "";
+        public bool bTienda { get; set; } = false;
+        public string UpdateDate { get; set; } = "";
+        public string UpdateTime { get; set; } = "";
+        public string U_SEITienda { get; set; } = "";
+        public string U_SEIUsarTab { get; set; } = "";
+        public Decimal Puntos { get; set; } = new Decimal(3);
+        public string? LOPDfirm { get; set; } = null;
+        public string? LOPDdate { get; set; } = null;
+        public string? LOPDtime { get; set; } = null;
     }
 }
