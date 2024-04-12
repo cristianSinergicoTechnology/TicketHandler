@@ -18,8 +18,8 @@ namespace TicketHandler.utils
         // constantes empresa
         public const string NOMBRE_EMPRESA = "TABACO BARATO S.L.";
         public const string DIRECCION_EMPRESA = "C/Avenida Castillo 39, 38200";
-        public const string FECHA_CREACION = "10/04/2024";
-        public const string HORA_CREACION = "12:20";
+        public const string FECHA_CREACION = "12/04/2024";
+        public const string HORA_CREACION = "11:20:20";
         public const string NIF = "BAS34284239325C";
         public const string TELEFONO_EMPRESA = "";
         public static Dictionary<string, bool> FOOTER = new Dictionary<string, bool>
@@ -29,14 +29,13 @@ namespace TicketHandler.utils
                     { "-10% DE DESCUENTO CON EL CODIGO", true },
                     { "PROMOCIONAL: SOYFUMADOR", true },
                     { "NO LO DEJES ESCAPAR", false },
-                    { "", false },
-                    { "", false },
+                    { "\n", false },
                     { "SIGUENOS EN FACEBOOK", false }
                 };
 
 
         // constantes cliente
-        public const string NOMBRE_CLIENTE = "PEDRO";
+        public const string NOMBRE_CLIENTE = "ENRIQUE";
         public const string DIRECCION_CLIENTE = "C/La Paz 20, 38152";
 
         // constantes ticket

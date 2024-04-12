@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Reflection;
+using System.Text;
+using System.Text.Json;
 using TicketHandler.modelo;
 using TicketHandler.utils;
 
@@ -6,7 +8,7 @@ namespace TicketHandler
 {
     internal static class Impresora
     {
-        public static void printTicket(Document? doc, List<ViaPago> viasPago, Cliente? cliente, bool proforma, string empleado, bool mostrarCodigoArticulo = false, string ruta = "./pruebaFactura.txt")
+        public static Dictionary<string, object> printTicket(Document? doc, List<ViaPago> viasPago, Cliente? cliente, bool proforma, string empleado, bool mostrarCodigoArticulo = false, string ruta = "./pruebaFactura.txt")
         {
             try
             {
@@ -76,12 +78,37 @@ namespace TicketHandler
 
                 printer.Close();
 
-                File.WriteAllBytes(ruta,printer.ToArray()); // guardamos el contenido en el archivo externo
+                return loadContent(printer.ToArray());
+
             }
             catch (Exception ex) {
                 Console.Error.WriteLine(ex.ToString());
+                return new Dictionary<string, object>()
+                {
+                    { "data","ERROR" }
+                };
             }
         }
+
+        private static Dictionary<string,object> loadContent(byte[] bytes)
+        {
+            //JsonSerializerOptions options = new JsonSerializerOptions()
+            //{
+            //    WriteIndented = true,
+            //};
+            var json = new Dictionary<string, object>()
+            {
+                { "type","ticket" },
+                { "data", bytes.ToList() },
+            };
+
+            var finalJson = JsonSerializer.Serialize(json);
+
+            File.WriteAllText("./respuesta.json",finalJson);
+            return json;
+        }
+
+
 
         #region FUNCIONES HELPER IMPRESORA
 
@@ -272,7 +299,7 @@ namespace TicketHandler
             if(ticket.DocumentHeader.ImportePromocion > Decimal.Zero)
             {
                 ticket.DocumentLines.ForEach(line => {
-                    stream.WriteLn($"  {line.Quantity}  ${line.ItemName.Substring(0, 16).PadRight(20)}", 1);
+                    stream.WriteLn($" {line.Quantity}  ${line.ItemName.Substring(0, 16).PadRight(20)}", 1);
 
                 if (mostrarCodigoArticulo)
                 {
@@ -284,9 +311,9 @@ namespace TicketHandler
             {
                 ticket.DocumentLines.ForEach(line =>
                 {
-                    stream.WriteLn($"  {line.Quantity}  " +
+                    stream.WriteLn($" {line.Quantity}  " +
                         $"{line.ItemName.Substring(0,16).PadRight(20)} " +
-                        $"{Utils.FormatAsMoney(line.PrecioUnitario).ToString().PadLeft(13)} " + 
+                        $"{Utils.FormatAsMoney(line.PrecioUnitario).ToString().PadLeft(12)} " + 
                         Utils.FormatAsMoney(line.ImporteTotal).ToString().PadLeft(7),
                         1);
 
@@ -369,6 +396,16 @@ namespace TicketHandler
             var euroBytes = Encoding.GetEncoding(858).GetBytes(euro.ToString());
             return euroBytes;
         }
+
+        private static string EuroAsString()
+        {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            var letra = (char)128;
+            //return Encoding.GetEncoding(858).GetString();
+            return letra.ToString();
+        }
+
+
         #endregion
 
         #endregion

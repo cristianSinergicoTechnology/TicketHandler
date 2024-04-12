@@ -48,7 +48,46 @@ namespace TicketHandler
                         CreateTime = Utils.HORA_CREACION,
                         UpdateDate = Utils.FECHA_CREACION,
                         UpdateTime = Utils.HORA_CREACION,
-                    }
+                    },
+                    new DocumentLine()
+                    {
+                        ItemCode = "000039",
+                        ItemName = "AMERICAN SPIRIT NARANJA",
+                        RowNum = 0,
+                        Quantity = 1,
+                        UoMEntry = 1,
+                        PrecioUnitario = new decimal(7.15),
+                        Importe = new decimal(7.15),
+                        TipoImpuesto = "RC0",
+                        Impuesto = Decimal.Zero,
+                        ImporteIGIC = Decimal.Zero,
+                        ImporteTotal = new decimal(7.15),
+                        EmpID = "8",
+                        CreateDate = Utils.FECHA_CREACION,
+                        CreateTime = Utils.HORA_CREACION,
+                        UpdateDate = Utils.FECHA_CREACION,
+                        UpdateTime = Utils.HORA_CREACION,
+                    },
+                    new DocumentLine()
+                    {
+                        ItemCode = "000039",
+                        ItemName = "AMERICAN SPIRIT NARANJA",
+                        RowNum = 0,
+                        Quantity = 1,
+                        UoMEntry = 1,
+                        PrecioUnitario = new decimal(7.15),
+                        Importe = new decimal(7.15),
+                        TipoImpuesto = "RC0",
+                        Impuesto = Decimal.Zero,
+                        ImporteIGIC = Decimal.Zero,
+                        ImporteTotal = new decimal(7.15),
+                        EmpID = "8",
+                        CreateDate = Utils.FECHA_CREACION,
+                        CreateTime = Utils.HORA_CREACION,
+                        UpdateDate = Utils.FECHA_CREACION,
+                        UpdateTime = Utils.HORA_CREACION,
+                    },
+
                 ],
                 #endregion
                 #region DocumentPayments
@@ -68,7 +107,38 @@ namespace TicketHandler
                         CreateTime = Utils.HORA_CREACION,
                         UpdateDate = Utils.FECHA_CREACION,
                         UpdateTime = Utils.HORA_CREACION
-                    }
+                    },
+                    new DocumentPayment
+                    {
+                        IDTienda = "104",
+                        IDCaja = "04",
+                        IDTicket = "T2410404-000170",
+                        IDCobro = "CO",
+                        Importe = new decimal(7.15),
+                        EntryViaPago = 13,
+                        ViaPago = "VISAS BBVA",
+                        EmpID = "8",
+                        CreateDate = Utils.FECHA_CREACION,
+                        CreateTime = Utils.HORA_CREACION,
+                        UpdateDate = Utils.FECHA_CREACION,
+                        UpdateTime = Utils.HORA_CREACION
+                    },
+                    new DocumentPayment
+                    {
+                        IDTienda = "104",
+                        IDCaja = "04",
+                        IDTicket = "T2410404-000170",
+                        IDCobro = "CO",
+                        Importe = new decimal(7.15),
+                        EntryViaPago = 13,
+                        ViaPago = "VISAS BBVA",
+                        EmpID = "8",
+                        CreateDate = Utils.FECHA_CREACION,
+                        CreateTime = Utils.HORA_CREACION,
+                        UpdateDate = Utils.FECHA_CREACION,
+                        UpdateTime = Utils.HORA_CREACION
+                    },
+
                 ],
                 #endregion
                 #region DocumentReads
@@ -119,10 +189,12 @@ namespace TicketHandler
             #endregion
 
             #endregion
-
-            Impresora.printTicket(doc, [viaPago], cliente, false, "PACO");
-
-
+            var json = Impresora.printTicket(doc, [viaPago], cliente, false, "CRISTIAN");
+            var data = (List<byte>)json["data"];
+            Console.WriteLine("--------------DATOS DEL TICKET---------------");
+            data.ForEach(x => { Console.Write(x + ","); });
+            Console.Write("\n");
+            Console.WriteLine("--------------DATOS DEL TICKET---------------");
         }
     }
 }
