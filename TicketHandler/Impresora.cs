@@ -6,15 +6,15 @@ using TicketHandler.utils;
 
 namespace TicketHandler
 {
-    internal static class Impresora
+    public static class Impresora
     {
         public static Dictionary<string, object> printTicket(Document? doc, List<ViaPago> viasPago, Cliente? cliente, bool proforma, string empleado, bool mostrarCodigoArticulo = false, string ruta = "./pruebaFactura.txt")
         {
             try
             {
                 
-                var tfnEmpresa = Utils.TELEFONO_EMPRESA;
-                var footerLines = Utils.FOOTER;
+                var tfnEmpresa = TicketHandlerUtils.TELEFONO_EMPRESA;
+                var footerLines = TicketHandlerUtils.FOOTER;
 
                 MemoryStream printer = new MemoryStream();
                 printer.InicializarImpresora();
@@ -30,10 +30,10 @@ namespace TicketHandler
 
                 printer.TextoDefecto();
                 printer.TextoGrande();
-                printer.WriteLn(Utils.NOMBRE_EMPRESA, 1);
+                printer.WriteLn(TicketHandlerUtils.NOMBRE_EMPRESA, 1);
 
                 printer.TextoDefecto();
-                printer.WriteLn(Utils.DIRECCION_EMPRESA, 1);
+                printer.WriteLn(TicketHandlerUtils.DIRECCION_EMPRESA, 1);
                 
                 printer.TextoNegrita();
                 printer.Write(GetBytes("TELF. "));
@@ -43,13 +43,13 @@ namespace TicketHandler
                 printer.TextoNegrita();
                 printer.Write(GetBytes("NIF: "));
                 printer.TextoDefecto();
-                printer.WriteLn(Utils.NIF, 2);
+                printer.WriteLn(TicketHandlerUtils.NIF, 2);
                 #endregion
 
                 printer.TextoCentradoIzquierda();
                 printer.Write(GetBytes("Ticket: "));
                 printer.TextoDefecto();
-                printer.WriteLn($"{doc.DocumentHeader.IDTicket} {Utils.FECHA_CREACION} {Utils.HORA_CREACION}",2);
+                printer.WriteLn($"{doc.DocumentHeader.IDTicket} {TicketHandlerUtils.FECHA_CREACION} {TicketHandlerUtils.HORA_CREACION}",2);
 
                 printer.TextoNegrita();
                 printer.Write(GetBytes("Le ha atendido: "));
@@ -85,7 +85,8 @@ namespace TicketHandler
                 Console.Error.WriteLine(ex.ToString());
                 return new Dictionary<string, object>()
                 {
-                    { "data","ERROR" }
+                    { "errorMessage", $"Error al generar ticket: {ex}" },
+                    { "data","" }
                 };
             }
         }
@@ -98,7 +99,7 @@ namespace TicketHandler
             //};
             var json = new Dictionary<string, object>()
             {
-                { "type","ticket" },
+                { "errorMessage","" },
                 { "data", bytes.ToList() },
             };
 
@@ -313,8 +314,8 @@ namespace TicketHandler
                 {
                     stream.WriteLn($" {line.Quantity}  " +
                         $"{line.ItemName.Substring(0,16).PadRight(20)} " +
-                        $"{Utils.FormatAsMoney(line.PrecioUnitario).ToString().PadLeft(12)} " + 
-                        Utils.FormatAsMoney(line.ImporteTotal).ToString().PadLeft(7),
+                        $"{TicketHandlerUtils.FormatAsMoney(line.PrecioUnitario).ToString().PadLeft(12)} " + 
+                        TicketHandlerUtils.FormatAsMoney(line.ImporteTotal).ToString().PadLeft(7),
                         1);
 
                     if (mostrarCodigoArticulo)
@@ -326,7 +327,7 @@ namespace TicketHandler
             stream.TextoDefecto();
             stream.WriteLn($"{"".PadLeft(47, '=')}", 1);
 
-            var tipoDocumento = "SUBTOTAL:".PadLeft(30) +(ticket.DocumentHeader.TipoDocumento == Utils.DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.ImporteTotal.ToString().PadLeft(15); 
+            var tipoDocumento = "SUBTOTAL:".PadLeft(30) +(ticket.DocumentHeader.TipoDocumento == TicketHandlerUtils.DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.ImporteTotal.ToString().PadLeft(15); 
             
             stream.TextoNegrita();
             stream.Write(GetBytes(tipoDocumento));
@@ -334,7 +335,7 @@ namespace TicketHandler
 
             stream.WriteLn("", 2);
 
-            var importeTotal = "TOTAL:".PadLeft(30) + (ticket.DocumentHeader.TipoDocumento == Utils.DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.ImporteTotal.ToString().PadLeft(15);
+            var importeTotal = "TOTAL:".PadLeft(30) + (ticket.DocumentHeader.TipoDocumento == TicketHandlerUtils.DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.ImporteTotal.ToString().PadLeft(15);
 
             stream.TextoNegrita();
             stream.Write(GetBytes(importeTotal));
@@ -347,7 +348,7 @@ namespace TicketHandler
                 ViaPago? viaPago = viasPago.FirstOrDefault(paymentType => payment.EntryViaPago == paymentType.CreditCard);
                 if(viaPago != null)
                 {
-                    var pago = (viaPago.Nombre.ToUpper().PadLeft(30) + (((ticket.DocumentHeader.TipoDocumento == Utils.DOCTYPE_ABONO ? "-" : "") + payment.Importe.ToString())).PadLeft(15));
+                    var pago = (viaPago.Nombre.ToUpper().PadLeft(30) + (((ticket.DocumentHeader.TipoDocumento == TicketHandlerUtils.DOCTYPE_ABONO ? "-" : "") + payment.Importe.ToString())).PadLeft(15));
                     stream.Write(GetBytes(pago));
                     stream.Write(Euro());
                 }

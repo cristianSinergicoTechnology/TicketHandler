@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TicketHandler.modelo
 {
-    internal class DocumentPayment
+    public class DocumentPayment
     {
         public string IDTienda { get; set; }
         public string IDCaja { get; set; }

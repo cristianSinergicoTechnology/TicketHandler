@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TicketHandler.utils
 {
-    internal class Utils
+    public class TicketHandlerUtils
     {
         public static Decimal FormatAsMoney(Decimal num)
         {

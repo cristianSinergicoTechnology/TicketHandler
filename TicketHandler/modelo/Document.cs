@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TicketHandler.modelo
 {
-    internal class Document
+    public class Document
     {
         public DocumentHeader DocumentHeader {  get; set; }
         public List<DocumentLine> DocumentLines { get; set; }

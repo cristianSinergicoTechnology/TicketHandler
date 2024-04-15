@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TicketHandler.modelo
 {
-    internal class Cliente
+    public class Cliente
     {
         public string CardCode { get; set; } = "";
         public string CardName { get; set; } = "";

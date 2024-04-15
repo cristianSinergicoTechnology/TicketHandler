@@ -44,10 +44,10 @@ namespace TicketHandler
                         ImporteIGIC = Decimal.Zero,
                         ImporteTotal = new decimal(7.15),
                         EmpID = "8",
-                        CreateDate = Utils.FECHA_CREACION,
-                        CreateTime = Utils.HORA_CREACION,
-                        UpdateDate = Utils.FECHA_CREACION,
-                        UpdateTime = Utils.HORA_CREACION,
+                        CreateDate = TicketHandlerUtils.FECHA_CREACION,
+                        CreateTime = TicketHandlerUtils.HORA_CREACION,
+                        UpdateDate = TicketHandlerUtils.FECHA_CREACION,
+                        UpdateTime = TicketHandlerUtils.HORA_CREACION,
                     },
                     new DocumentLine()
                     {
@@ -63,10 +63,10 @@ namespace TicketHandler
                         ImporteIGIC = Decimal.Zero,
                         ImporteTotal = new decimal(7.15),
                         EmpID = "8",
-                        CreateDate = Utils.FECHA_CREACION,
-                        CreateTime = Utils.HORA_CREACION,
-                        UpdateDate = Utils.FECHA_CREACION,
-                        UpdateTime = Utils.HORA_CREACION,
+                        CreateDate = TicketHandlerUtils.FECHA_CREACION,
+                        CreateTime = TicketHandlerUtils.HORA_CREACION,
+                        UpdateDate = TicketHandlerUtils.FECHA_CREACION,
+                        UpdateTime = TicketHandlerUtils.HORA_CREACION,
                     },
                     new DocumentLine()
                     {
@@ -82,10 +82,10 @@ namespace TicketHandler
                         ImporteIGIC = Decimal.Zero,
                         ImporteTotal = new decimal(7.15),
                         EmpID = "8",
-                        CreateDate = Utils.FECHA_CREACION,
-                        CreateTime = Utils.HORA_CREACION,
-                        UpdateDate = Utils.FECHA_CREACION,
-                        UpdateTime = Utils.HORA_CREACION,
+                        CreateDate = TicketHandlerUtils.FECHA_CREACION,
+                        CreateTime = TicketHandlerUtils.HORA_CREACION,
+                        UpdateDate = TicketHandlerUtils.FECHA_CREACION,
+                        UpdateTime = TicketHandlerUtils.HORA_CREACION,
                     },
 
                 ],
@@ -103,10 +103,10 @@ namespace TicketHandler
                         EntryViaPago = 13,
                         ViaPago = "VISAS BBVA",
                         EmpID = "8",
-                        CreateDate = Utils.FECHA_CREACION,
-                        CreateTime = Utils.HORA_CREACION,
-                        UpdateDate = Utils.FECHA_CREACION,
-                        UpdateTime = Utils.HORA_CREACION
+                        CreateDate = TicketHandlerUtils.FECHA_CREACION,
+                        CreateTime = TicketHandlerUtils.HORA_CREACION,
+                        UpdateDate = TicketHandlerUtils.FECHA_CREACION,
+                        UpdateTime = TicketHandlerUtils.HORA_CREACION
                     },
                     new DocumentPayment
                     {
@@ -118,10 +118,10 @@ namespace TicketHandler
                         EntryViaPago = 13,
                         ViaPago = "VISAS BBVA",
                         EmpID = "8",
-                        CreateDate = Utils.FECHA_CREACION,
-                        CreateTime = Utils.HORA_CREACION,
-                        UpdateDate = Utils.FECHA_CREACION,
-                        UpdateTime = Utils.HORA_CREACION
+                        CreateDate = TicketHandlerUtils.FECHA_CREACION,
+                        CreateTime = TicketHandlerUtils.HORA_CREACION,
+                        UpdateDate = TicketHandlerUtils.FECHA_CREACION,
+                        UpdateTime = TicketHandlerUtils.HORA_CREACION
                     },
                     new DocumentPayment
                     {
@@ -133,10 +133,10 @@ namespace TicketHandler
                         EntryViaPago = 13,
                         ViaPago = "VISAS BBVA",
                         EmpID = "8",
-                        CreateDate = Utils.FECHA_CREACION,
-                        CreateTime = Utils.HORA_CREACION,
-                        UpdateDate = Utils.FECHA_CREACION,
-                        UpdateTime = Utils.HORA_CREACION
+                        CreateDate = TicketHandlerUtils.FECHA_CREACION,
+                        CreateTime = TicketHandlerUtils.HORA_CREACION,
+                        UpdateDate = TicketHandlerUtils.FECHA_CREACION,
+                        UpdateTime = TicketHandlerUtils.HORA_CREACION
                     },
 
                 ],
@@ -154,10 +154,10 @@ namespace TicketHandler
                         Codebar = "8436002681855",
                         TipoLectura = "Manual",
                         EmpID = "8",
-                        CreateDate = Utils.FECHA_CREACION,
-                        CreateTime = Utils.HORA_CREACION,
-                        UpdateDate = Utils.FECHA_CREACION,
-                        UpdateTime = Utils.HORA_CREACION,
+                        CreateDate = TicketHandlerUtils.FECHA_CREACION,
+                        CreateTime = TicketHandlerUtils.HORA_CREACION,
+                        UpdateDate = TicketHandlerUtils.FECHA_CREACION,
+                        UpdateTime = TicketHandlerUtils.HORA_CREACION,
                     }
                 ]
                 #endregion
@@ -169,9 +169,9 @@ namespace TicketHandler
 
             Cliente cliente = new()
             {
-                CardName = Utils.NOMBRE_CLIENTE,
-                Address = Utils.DIRECCION_CLIENTE,
-                FederalTaxId = Utils.NOMBRE_CLIENTE,
+                CardName = TicketHandlerUtils.NOMBRE_CLIENTE,
+                Address = TicketHandlerUtils.DIRECCION_CLIENTE,
+                FederalTaxId = TicketHandlerUtils.NOMBRE_CLIENTE,
 
             };
 
