@@ -1,0 +1,6 @@
+C:\Users\Projects\Documents\GitHub\Migracion\TicketHandler\TicketHandler\bin\Debug\TicketHandler.dll
+C:\Users\Projects\Documents\GitHub\Migracion\TicketHandler\TicketHandler\bin\Debug\TicketHandler.pdb
+C:\Users\Projects\Documents\GitHub\Migracion\TicketHandler\TicketHandler\obj\Debug\TicketHandler.csproj.AssemblyReference.cache
+C:\Users\Projects\Documents\GitHub\Migracion\TicketHandler\TicketHandler\obj\Debug\TicketHandler.csproj.CoreCompileInputs.cache
+C:\Users\Projects\Documents\GitHub\Migracion\TicketHandler\TicketHandler\obj\Debug\TicketHandler.dll
+C:\Users\Projects\Documents\GitHub\Migracion\TicketHandler\TicketHandler\obj\Debug\TicketHandler.pdb

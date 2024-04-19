@@ -8,6 +8,8 @@ namespace TicketHandler.modelo
 {
     public class Cliente
     {
+        public string Nombre { get; set; }
+        public string Direccion { get; set; }
         public string CardCode { get; set; } = "";
         public string CardName { get; set; } = "";
         public string Address { get; set; } = "";
@@ -33,8 +35,8 @@ namespace TicketHandler.modelo
         public string U_SEITienda { get; set; } = "";
         public string U_SEIUsarTab { get; set; } = "";
         public Decimal Puntos { get; set; } = new Decimal(3);
-        public string? LOPDfirm { get; set; } = null;
-        public string? LOPDdate { get; set; } = null;
-        public string? LOPDtime { get; set; } = null;
+        public string LOPDfirm { get; set; } = "";
+        public string LOPDdate { get; set; } = "";
+        public string LOPDtime { get; set; } = "";
     }
 }

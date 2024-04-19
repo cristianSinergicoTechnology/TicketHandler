@@ -11,35 +11,7 @@ namespace TicketHandler.utils
     {
         public static Decimal FormatAsMoney(Decimal num)
         {
-            return Decimal.Round(num,2,MidpointRounding.AwayFromZero);
+            return Decimal.Round(num, 2, MidpointRounding.AwayFromZero);
         }
-
-        #region CONSTANTES
-        // constantes empresa
-        public const string NOMBRE_EMPRESA = "TABACO BARATO S.L.";
-        public const string DIRECCION_EMPRESA = "C/Avenida Castillo 39, 38200";
-        public const string FECHA_CREACION = "12/04/2024";
-        public const string HORA_CREACION = "11:20:20";
-        public const string NIF = "BAS34284239325C";
-        public const string TELEFONO_EMPRESA = "";
-        public static Dictionary<string, bool> FOOTER = new Dictionary<string, bool>
-                {
-                    { "www.TABACOBARATO.com", false },
-                    { "TU PRIMERA COMPRA ONLINE CON UN", false },
-                    { "-10% DE DESCUENTO CON EL CODIGO", true },
-                    { "PROMOCIONAL: SOYFUMADOR", true },
-                    { "NO LO DEJES ESCAPAR", false },
-                    { "\n", false },
-                    { "SIGUENOS EN FACEBOOK", false }
-                };
-
-
-        // constantes cliente
-        public const string NOMBRE_CLIENTE = "ENRIQUE";
-        public const string DIRECCION_CLIENTE = "C/La Paz 20, 38152";
-
-        // constantes ticket
-        public const string DOCTYPE_ABONO = "TA";
-        #endregion
     }
 }

@@ -8,7 +8,7 @@ namespace TicketHandler.modelo
 {
     public class Document
     {
-        public DocumentHeader DocumentHeader {  get; set; }
+        public DocumentHeader DocumentHeader { get; set; }
         public List<DocumentLine> DocumentLines { get; set; }
         public List<DocumentRead> DocumentReads { get; set; }
         public List<DocumentPayment> DocumentPayments { get; set; }

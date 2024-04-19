@@ -18,7 +18,7 @@ namespace TicketHandler.modelo
         public string FromWarehouseCode { get; set; }
         public string ToWarehouseCode { get; set; }
         public string CardCodeFactura { get; set; }
-        public string? ShipTo { get; set; }
+        public string ShipTo { get; set; } = "";
         public string CardCode { get; set; }
         public string bReplicaFactura { get; set; }
         public Decimal? Importe { get; set; }

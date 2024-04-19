@@ -15,7 +15,7 @@ namespace TicketHandler.modelo
         public int Quantity { get; set; }
         public int UoMEntry { get; set; }
         public string UoM { get; set; }
-        public string? PromotionID { get; set; } = null;
+        public string PromotionID { get; set; } = "";
         public Decimal PrecioUnitario { get; set; }
         public Decimal PorcentajeDescuento { get; set; }
         public Decimal ImporteDescuento { get; set; }
@@ -24,7 +24,7 @@ namespace TicketHandler.modelo
         public Decimal Impuesto { get; set; }
         public Decimal ImporteIGIC { get; set; }
         public Decimal ImporteTotal { get; set; }
-        public string EmpID {  get; set; }
+        public string EmpID { get; set; }
         public string CreateDate { get; set; }
         public string CreateTime { get; set; }
         public string UpdateDate { get; set; }

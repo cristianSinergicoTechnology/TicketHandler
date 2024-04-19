@@ -1,6 +1,10 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System;
+using System.Reflection;
 using System.Text;
-using System.Text.Json;
+using System.Xml.Linq;
 using TicketHandler.modelo;
 using TicketHandler.utils;
 
@@ -8,13 +12,15 @@ namespace TicketHandler
 {
     public static class Impresora
     {
-        public static Dictionary<string, object> printTicket(Document? doc, List<ViaPago> viasPago, Cliente? cliente, bool proforma, string empleado, bool mostrarCodigoArticulo = false, string ruta = "./pruebaFactura.txt")
+        const string DOCTYPE_ABONO = "TA";
+
+        public static Dictionary<string, object> printTicket(Document doc, InfoEmpresa infoEmpresa
+            , List<ViaPago> viasPago, Cliente cliente, bool proforma, string empleado, bool mostrarCodigoArticulo = false, string ruta = "./pruebaFactura.txt")
         {
             try
             {
-                
-                var tfnEmpresa = TicketHandlerUtils.TELEFONO_EMPRESA;
-                var footerLines = TicketHandlerUtils.FOOTER;
+                var tfnEmpresa = infoEmpresa.Telefono;
+                var footerLines = infoEmpresa.Footer;
 
                 MemoryStream printer = new MemoryStream();
                 printer.InicializarImpresora();
@@ -25,16 +31,16 @@ namespace TicketHandler
                 if (proforma)
                 {
                     printer.TextoNegrita();
-                    printer.WriteLn("FACTURA PROFORMA",1);
+                    printer.WriteLn("FACTURA PROFORMA", 1);
                 }
 
                 printer.TextoDefecto();
                 printer.TextoGrande();
-                printer.WriteLn(TicketHandlerUtils.NOMBRE_EMPRESA, 1);
+                printer.WriteLn(infoEmpresa.Nombre, 1);
 
                 printer.TextoDefecto();
-                printer.WriteLn(TicketHandlerUtils.DIRECCION_EMPRESA, 1);
-                
+                printer.WriteLn(infoEmpresa.Direccion, 1);
+
                 printer.TextoNegrita();
                 printer.Write(GetBytes("TELF. "));
                 printer.TextoDefecto();
@@ -43,22 +49,22 @@ namespace TicketHandler
                 printer.TextoNegrita();
                 printer.Write(GetBytes("NIF: "));
                 printer.TextoDefecto();
-                printer.WriteLn(TicketHandlerUtils.NIF, 2);
+                printer.WriteLn(infoEmpresa.NIF, 2);
                 #endregion
 
                 printer.TextoCentradoIzquierda();
                 printer.Write(GetBytes("Ticket: "));
                 printer.TextoDefecto();
-                printer.WriteLn($"{doc.DocumentHeader.IDTicket} {TicketHandlerUtils.FECHA_CREACION} {TicketHandlerUtils.HORA_CREACION}",2);
+                printer.WriteLn($"{doc.DocumentHeader.IDTicket} {infoEmpresa.FechaCreacion} {infoEmpresa.HoraCreacion}", 2);
 
                 printer.TextoNegrita();
                 printer.Write(GetBytes("Le ha atendido: "));
                 printer.TextoDefecto();
                 printer.WriteLn(empleado, 2);
-                
+
                 var linesToSkip = proforma ? 1 : 2;
-                printer.WriteLn($"Cliente: {cliente.CardName}",linesToSkip);
-                if(proforma)
+                printer.WriteLn($"Cliente: {cliente.CardName}", linesToSkip);
+                if (proforma)
                 {
                     printer.WriteLn($"NIF: {cliente.FederalTaxId}", 1);
                     printer.WriteLn($"Direccion: {cliente.Address}", 1);
@@ -81,7 +87,8 @@ namespace TicketHandler
                 return loadContent(printer.ToArray());
 
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Console.Error.WriteLine(ex.ToString());
                 return new Dictionary<string, object>()
                 {
@@ -91,7 +98,7 @@ namespace TicketHandler
             }
         }
 
-        private static Dictionary<string,object> loadContent(byte[] bytes)
+        private static Dictionary<string, object> loadContent(byte[] bytes)
         {
             //JsonSerializerOptions options = new JsonSerializerOptions()
             //{
@@ -103,9 +110,6 @@ namespace TicketHandler
                 { "data", bytes.ToList() },
             };
 
-            var finalJson = JsonSerializer.Serialize(json);
-
-            File.WriteAllText("./respuesta.json",finalJson);
             return json;
         }
 
@@ -277,7 +281,7 @@ namespace TicketHandler
         /// </summary>
         /// <param name="ticket"></param>
         /// <param name="stream"></param>
-        private static void PrintBarcode(this MemoryStream stream,Document ticket)
+        private static void PrintBarcode(this MemoryStream stream, Document ticket)
         {
             stream.ConfigurarCodigoBarras();
             stream.Write(GetBytes(ticket.DocumentHeader.IDTicket));
@@ -294,27 +298,28 @@ namespace TicketHandler
         {
 
             stream.TextoNegrita();
-            stream.WriteLn($"{"UDS DESCRIPCION".PadRight(33)}PRECIO IMPORTE",1);
+            stream.WriteLn($"{"UDS DESCRIPCION".PadRight(33)}PRECIO IMPORTE", 1);
             stream.TextoDefecto();
-            stream.WriteLn($"{"".PadLeft(47,'=')}",1);
-            if(ticket.DocumentHeader.ImportePromocion > Decimal.Zero)
+            stream.WriteLn($"{"".PadLeft(47, '=')}", 1);
+            if (ticket.DocumentHeader.ImportePromocion > Decimal.Zero)
             {
                 ticket.DocumentLines.ForEach(line => {
                     stream.WriteLn($" {line.Quantity}  ${line.ItemName.Substring(0, 16).PadRight(20)}", 1);
 
-                if (mostrarCodigoArticulo)
-                {
-                    stream.WriteLn($"{line.ItemCode.PadLeft(15)}", 1);
-                }
-            });
+                    if (mostrarCodigoArticulo)
+                    {
+                        stream.WriteLn($"{line.ItemCode.PadLeft(15)}", 1);
+                    }
+                });
 
-            } else
+            }
+            else
             {
                 ticket.DocumentLines.ForEach(line =>
                 {
                     stream.WriteLn($" {line.Quantity}  " +
-                        $"{line.ItemName.Substring(0,16).PadRight(20)} " +
-                        $"{TicketHandlerUtils.FormatAsMoney(line.PrecioUnitario).ToString().PadLeft(12)} " + 
+                        $"{line.ItemName.Substring(0, 16).PadRight(20)} " +
+                        $"{TicketHandlerUtils.FormatAsMoney(line.PrecioUnitario).ToString().PadLeft(12)} " +
                         TicketHandlerUtils.FormatAsMoney(line.ImporteTotal).ToString().PadLeft(7),
                         1);
 
@@ -327,15 +332,15 @@ namespace TicketHandler
             stream.TextoDefecto();
             stream.WriteLn($"{"".PadLeft(47, '=')}", 1);
 
-            var tipoDocumento = "SUBTOTAL:".PadLeft(30) +(ticket.DocumentHeader.TipoDocumento == TicketHandlerUtils.DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.ImporteTotal.ToString().PadLeft(15); 
-            
+            var tipoDocumento = "SUBTOTAL:".PadLeft(30) + (ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.ImporteTotal.ToString().PadLeft(15);
+
             stream.TextoNegrita();
             stream.Write(GetBytes(tipoDocumento));
             stream.Write(Euro());
 
             stream.WriteLn("", 2);
 
-            var importeTotal = "TOTAL:".PadLeft(30) + (ticket.DocumentHeader.TipoDocumento == TicketHandlerUtils.DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.ImporteTotal.ToString().PadLeft(15);
+            var importeTotal = "TOTAL:".PadLeft(30) + (ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.ImporteTotal.ToString().PadLeft(15);
 
             stream.TextoNegrita();
             stream.Write(GetBytes(importeTotal));
@@ -345,25 +350,22 @@ namespace TicketHandler
             stream.SkipLines(2);
             ticket.DocumentPayments.ForEach(payment =>
             {
-                ViaPago? viaPago = viasPago.FirstOrDefault(paymentType => payment.EntryViaPago == paymentType.CreditCard);
-                if(viaPago != null)
+                ViaPago viaPago = viasPago.FirstOrDefault(paymentType => payment.EntryViaPago == paymentType.CreditCard);
+                if (viaPago != null)
                 {
-                    var pago = (viaPago.Nombre.ToUpper().PadLeft(30) + (((ticket.DocumentHeader.TipoDocumento == TicketHandlerUtils.DOCTYPE_ABONO ? "-" : "") + payment.Importe.ToString())).PadLeft(15));
+                    var pago = (viaPago.Nombre.ToUpper().PadLeft(30) + (((ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + payment.Importe.ToString())).PadLeft(15));
                     stream.Write(GetBytes(pago));
                     stream.Write(Euro());
                 }
                 stream.SkipLines(1);
-                if(payment.Entregado != null)
-                {
                     var entregado = "ENTREGADO: ".PadLeft(30) + payment.Entregado.ToString().PadLeft(15);
                     stream.Write(GetBytes(entregado));
                     stream.Write(Euro());
                     stream.SkipLines(1);
-                }
-                if(payment.Cambio != null)
+                if (payment.Cambio != Decimal.Zero)
                 {
-                    var entregado = "Cambio: ".PadLeft(30) + payment.Cambio.ToString().PadLeft(15);
-                    stream.Write(GetBytes(entregado));
+                    var cambio = "CAMBIO: ".PadLeft(30) + payment.Cambio.ToString().PadLeft(15);
+                    stream.Write(GetBytes(cambio));
                     stream.Write(Euro());
                     stream.SkipLines(1);
                 }
@@ -392,25 +394,24 @@ namespace TicketHandler
 
         private static byte[] Euro()
         {
-            char euro = '€';
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            var euroBytes = Encoding.GetEncoding(858).GetBytes(euro.ToString());
+            // char euro = '€';
+            // Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            // var euroBytes = Encoding.GetEncoding(858).GetBytes(euro.ToString());
+            byte[] euroBytes = { 0xA4 };
             return euroBytes;
         }
 
-        private static string EuroAsString()
+        private static void Write(this MemoryStream stream, byte[] content)
         {
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            var letra = (char)128;
-            //return Encoding.GetEncoding(858).GetString();
-            return letra.ToString();
+            stream.Write(content,0,content.Length);
         }
 
 
-        #endregion
 
         #endregion
 
-        
+        #endregion
+
+
     }
 }
