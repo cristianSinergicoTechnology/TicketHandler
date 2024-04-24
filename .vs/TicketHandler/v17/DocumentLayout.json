@@ -3,7 +3,7 @@
   "WorkspaceRootPath": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\tickethandler\\impresora.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|c:\\users\\projects\\documents\\github\\tickethandler\\tickethandler\\impresora.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|solutionrelative:tickethandler\\impresora.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -15,7 +15,7 @@
       "RelativeMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|solutionrelative:tickethandler\\utils\\tickethandlerutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|c:\\users\\projects\\documents\\github\\tickethandler\\tickethandler\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\tickethandler\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|solutionrelative:tickethandler\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -74,8 +74,7 @@
               "RelativeToolTip": "TicketHandler\\Program.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAANkAAABPAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T09:50:37.789Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-19T09:50:37.789Z"
             },
             {
               "$type": "Document",
@@ -87,8 +86,7 @@
               "RelativeToolTip": "TicketHandler\\utils\\TicketHandlerUtils.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T09:36:31.62Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-19T09:36:31.62Z"
             },
             {
               "$type": "Document",
@@ -100,8 +98,7 @@
               "RelativeToolTip": "TicketHandler\\modelo\\InfoEmpresa.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T09:35:39.446Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-19T09:35:39.446Z"
             },
             {
               "$type": "Document",
@@ -207,7 +204,7 @@
               "RelativeDocumentMoniker": "TicketHandler\\Impresora.cs",
               "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\Impresora.cs",
               "RelativeToolTip": "TicketHandler\\Impresora.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEsAAAARAAAA",
+              "ViewState": "AQIAACsBAAAAAAAAAAArwDcBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-19T09:28:50.494Z",
               "EditorCaption": ""

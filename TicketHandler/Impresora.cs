@@ -307,7 +307,8 @@ namespace TicketHandler
             if (ticket.DocumentHeader.ImportePromocion > Decimal.Zero)
             {
                 ticket.DocumentLines.ForEach(line => {
-                    stream.WriteLn($" {line.Quantity}  ${line.ItemName.Substring(0, 16).PadRight(20)}", 1);
+                    string itemName = new string(line.ItemName.Take(16).ToArray());
+                    stream.WriteLn($" {line.Quantity}  ${itemName.PadRight(20)}", 1);
 
                     if (mostrarCodigoArticulo)
                     {
@@ -320,8 +321,9 @@ namespace TicketHandler
             {
                 ticket.DocumentLines.ForEach(line =>
                 {
+                    string itemName = new string(line.ItemName.Take(16).ToArray());
                     stream.WriteLn($" {line.Quantity}  " +
-                        $"{line.ItemName.Substring(0, 16).PadRight(20)} " +
+                        $"{itemName.PadRight(20)} " +
                         $"{TicketHandlerUtils.FormatAsMoney(line.PrecioUnitario).ToString().PadLeft(12)} " +
                         TicketHandlerUtils.FormatAsMoney(line.ImporteTotal).ToString().PadLeft(7),
                         1);
