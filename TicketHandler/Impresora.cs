@@ -15,7 +15,7 @@ namespace TicketHandler
         const string DOCTYPE_ABONO = "TA";
 
         public static Dictionary<string, object> printTicket(Document doc, InfoEmpresa infoEmpresa
-            , List<ViaPago> viasPago, Cliente cliente, bool proforma, string empleado, bool mostrarCodigoArticulo = false, string ruta = "./pruebaFactura.txt")
+            , List<ViaPago> viasPago, Cliente cliente, bool proforma, string empleado, bool mostrarCodigoArticulo = false, bool printFooter = false, string ruta = "./pruebaFactura.txt")
         {
             try
             {
@@ -72,11 +72,14 @@ namespace TicketHandler
 
                 printer.PrintProductsAndPayments(doc, viasPago, mostrarCodigoArticulo);
 
-                printer.PrintFooter(footerLines);
+                if (printFooter)
+                {
+                    printer.PrintFooter(footerLines);
 
-                printer.SkipLines(3);
+                    printer.SkipLines(3);
 
-                printer.PrintBarcode(doc);
+                    printer.PrintBarcode(doc);
+                }
 
                 // Rellanamos 5 filas para que no se corte información de la factura
                 printer.SkipLines(5);

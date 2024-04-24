@@ -1,53 +1,53 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\",
+  "WorkspaceRootPath": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|c:\\users\\projects\\documents\\github\\migracion\\tickethandler\\tickethandler\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|solutionrelative:tickethandler\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|c:\\users\\projects\\documents\\github\\migracion\\tickethandler\\tickethandler\\utils\\tickethandlerutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|solutionrelative:tickethandler\\utils\\tickethandlerutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|c:\\users\\projects\\documents\\github\\migracion\\tickethandler\\tickethandler\\modelo\\document.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|solutionrelative:tickethandler\\modelo\\document.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|c:\\users\\projects\\documents\\github\\migracion\\tickethandler\\tickethandler\\modelo\\documentheader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|solutionrelative:tickethandler\\modelo\\documentheader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|c:\\users\\projects\\documents\\github\\migracion\\tickethandler\\tickethandler\\impresora.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\tickethandler\\impresora.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|solutionrelative:tickethandler\\impresora.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|c:\\users\\projects\\documents\\github\\migracion\\tickethandler\\tickethandler\\modelo\\infoempresa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\tickethandler\\modelo\\infoempresa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|solutionrelative:tickethandler\\modelo\\infoempresa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|c:\\users\\projects\\documents\\github\\migracion\\tickethandler\\tickethandler\\modelo\\viapago.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\tickethandler\\utils\\tickethandlerutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|solutionrelative:tickethandler\\utils\\tickethandlerutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|c:\\users\\projects\\documents\\github\\tickethandler\\tickethandler\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|solutionrelative:tickethandler\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\tickethandler\\modelo\\document.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|solutionrelative:tickethandler\\modelo\\document.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\tickethandler\\modelo\\documentheader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|solutionrelative:tickethandler\\modelo\\documentheader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\tickethandler\\modelo\\viapago.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|solutionrelative:tickethandler\\modelo\\viapago.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|c:\\users\\projects\\documents\\github\\migracion\\tickethandler\\tickethandler\\modelo\\documentread.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\tickethandler\\modelo\\documentread.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|solutionrelative:tickethandler\\modelo\\documentread.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|c:\\users\\projects\\documents\\github\\migracion\\tickethandler\\tickethandler\\modelo\\documentpayment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\tickethandler\\modelo\\documentpayment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|solutionrelative:tickethandler\\modelo\\documentpayment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|c:\\users\\projects\\documents\\github\\migracion\\tickethandler\\tickethandler\\modelo\\documentline.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\tickethandler\\modelo\\documentline.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|solutionrelative:tickethandler\\modelo\\documentline.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|c:\\users\\projects\\documents\\github\\migracion\\tickethandler\\tickethandler\\modelo\\cliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\tickethandler\\modelo\\cliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|solutionrelative:tickethandler\\modelo\\cliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|c:\\users\\projects\\documents\\github\\migracion\\tickethandler\\tickethandler\\utils\\commands.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\tickethandler\\utils\\commands.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B37602B4-DF4F-411E-997A-5D5D26553A64}|TicketHandler\\TicketHandler.csproj|solutionrelative:tickethandler\\utils\\commands.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -58,7 +58,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 12,
           "Children": [
             {
               "$type": "Bookmark",
@@ -66,24 +66,24 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\Program.cs",
+              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\Program.cs",
               "RelativeDocumentMoniker": "TicketHandler\\Program.cs",
-              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\Program.cs",
+              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\Program.cs",
               "RelativeToolTip": "TicketHandler\\Program.cs",
-              "ViewState": "AQIAAMcAAAAAAAAAAAAowNcAAABCAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAANkAAABPAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-19T09:50:37.789Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "TicketHandlerUtils.cs",
-              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\utils\\TicketHandlerUtils.cs",
+              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\utils\\TicketHandlerUtils.cs",
               "RelativeDocumentMoniker": "TicketHandler\\utils\\TicketHandlerUtils.cs",
-              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\utils\\TicketHandlerUtils.cs",
+              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\utils\\TicketHandlerUtils.cs",
               "RelativeToolTip": "TicketHandler\\utils\\TicketHandlerUtils.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -92,11 +92,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
               "Title": "InfoEmpresa.cs",
-              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\modelo\\InfoEmpresa.cs",
+              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\modelo\\InfoEmpresa.cs",
               "RelativeDocumentMoniker": "TicketHandler\\modelo\\InfoEmpresa.cs",
-              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\modelo\\InfoEmpresa.cs",
+              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\modelo\\InfoEmpresa.cs",
               "RelativeToolTip": "TicketHandler\\modelo\\InfoEmpresa.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -107,115 +107,107 @@
               "$type": "Document",
               "DocumentIndex": 6,
               "Title": "ViaPago.cs",
-              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\modelo\\ViaPago.cs",
+              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\modelo\\ViaPago.cs",
               "RelativeDocumentMoniker": "TicketHandler\\modelo\\ViaPago.cs",
-              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\modelo\\ViaPago.cs",
+              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\modelo\\ViaPago.cs",
               "RelativeToolTip": "TicketHandler\\modelo\\ViaPago.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T09:35:20.913Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-19T09:35:20.913Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
               "Title": "DocumentRead.cs",
-              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\modelo\\DocumentRead.cs",
+              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\modelo\\DocumentRead.cs",
               "RelativeDocumentMoniker": "TicketHandler\\modelo\\DocumentRead.cs",
-              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\modelo\\DocumentRead.cs",
+              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\modelo\\DocumentRead.cs",
               "RelativeToolTip": "TicketHandler\\modelo\\DocumentRead.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABkAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T09:33:40.648Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-19T09:33:40.648Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
               "Title": "DocumentPayment.cs",
-              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\modelo\\DocumentPayment.cs",
+              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\modelo\\DocumentPayment.cs",
               "RelativeDocumentMoniker": "TicketHandler\\modelo\\DocumentPayment.cs",
-              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\modelo\\DocumentPayment.cs",
+              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\modelo\\DocumentPayment.cs",
               "RelativeToolTip": "TicketHandler\\modelo\\DocumentPayment.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABsAAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T09:32:38.755Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-19T09:32:38.755Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 9,
               "Title": "DocumentLine.cs",
-              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\modelo\\DocumentLine.cs",
+              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\modelo\\DocumentLine.cs",
               "RelativeDocumentMoniker": "TicketHandler\\modelo\\DocumentLine.cs",
-              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\modelo\\DocumentLine.cs",
+              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\modelo\\DocumentLine.cs",
               "RelativeToolTip": "TicketHandler\\modelo\\DocumentLine.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T09:32:09.432Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-19T09:32:09.432Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "DocumentHeader.cs",
-              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\modelo\\DocumentHeader.cs",
+              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\modelo\\DocumentHeader.cs",
               "RelativeDocumentMoniker": "TicketHandler\\modelo\\DocumentHeader.cs",
-              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\modelo\\DocumentHeader.cs",
+              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\modelo\\DocumentHeader.cs",
               "RelativeToolTip": "TicketHandler\\modelo\\DocumentHeader.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAwAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T09:31:40.977Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-19T09:31:40.977Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Document.cs",
-              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\modelo\\Document.cs",
+              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\modelo\\Document.cs",
               "RelativeDocumentMoniker": "TicketHandler\\modelo\\Document.cs",
-              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\modelo\\Document.cs",
+              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\modelo\\Document.cs",
               "RelativeToolTip": "TicketHandler\\modelo\\Document.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T09:31:25.503Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-19T09:31:25.503Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 10,
               "Title": "Cliente.cs",
-              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\modelo\\Cliente.cs",
+              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\modelo\\Cliente.cs",
               "RelativeDocumentMoniker": "TicketHandler\\modelo\\Cliente.cs",
-              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\modelo\\Cliente.cs",
+              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\modelo\\Cliente.cs",
               "RelativeToolTip": "TicketHandler\\modelo\\Cliente.cs",
               "ViewState": "AQIAAB0AAAAAAAAAAAAowCkAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T09:30:33.552Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-19T09:30:33.552Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 11,
               "Title": "Commands.cs",
-              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\utils\\Commands.cs",
+              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\utils\\Commands.cs",
               "RelativeDocumentMoniker": "TicketHandler\\utils\\Commands.cs",
-              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\utils\\Commands.cs",
+              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\utils\\Commands.cs",
               "RelativeToolTip": "TicketHandler\\utils\\Commands.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T09:30:03.902Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-19T09:30:03.902Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "Impresora.cs",
-              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\Impresora.cs",
+              "DocumentMoniker": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\Impresora.cs",
               "RelativeDocumentMoniker": "TicketHandler\\Impresora.cs",
-              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\Migracion\\TicketHandler\\TicketHandler\\Impresora.cs",
+              "ToolTip": "C:\\Users\\Projects\\Documents\\GitHub\\TicketHandler\\TicketHandler\\Impresora.cs",
               "RelativeToolTip": "TicketHandler\\Impresora.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAABAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEsAAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-19T09:28:50.494Z",
               "EditorCaption": ""
