@@ -399,10 +399,10 @@ namespace TicketHandler
 
         private static byte[] Euro()
         {
-            // char euro = '€';
-            // Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            // var euroBytes = Encoding.GetEncoding(858).GetBytes(euro.ToString());
-            byte[] euroBytes = { 0xA4 };
+            char euro = '€';
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            var euroBytes = Encoding.GetEncoding(858).GetBytes(euro.ToString());
+            //byte[] euroBytes = { 0xA4 };
             return euroBytes;
         }
 
