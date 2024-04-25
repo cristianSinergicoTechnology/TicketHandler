@@ -25,6 +25,7 @@ namespace TicketHandler
                 MemoryStream printer = new MemoryStream();
                 printer.InicializarImpresora();
                 printer.CambiarCodePage();
+                printer.SeleccionarIdioma();
                 printer.TituloFactura();
                 printer.CentrarTexto();
                 #region TICKET HEADER
@@ -103,10 +104,6 @@ namespace TicketHandler
 
         private static Dictionary<string, object> loadContent(byte[] bytes)
         {
-            //JsonSerializerOptions options = new JsonSerializerOptions()
-            //{
-            //    WriteIndented = true,
-            //};
             var json = new Dictionary<string, object>()
             {
                 { "errorMessage","" },
@@ -126,9 +123,9 @@ namespace TicketHandler
         /// <param name="stream"></param>
         private static void InicializarImpresora(this MemoryStream stream)
         {
-            stream.Write(Commands.ESC);
+            stream.Write(TecPVCommands.ESC);
             stream.Write(GetBytes('@'));
-            stream.Write(Commands.SKIP_LINE);
+            stream.Write(TecPVCommands.SKIP_LINE);
         }
 
         /// <summary>
@@ -149,10 +146,10 @@ namespace TicketHandler
         /// <param name="numLinea"></param>
         private static void SkipLines(this MemoryStream stream, int numLinea)
         {
-            stream.Write(Commands.SKIP_LINE);
+            stream.Write(TecPVCommands.SKIP_LINE);
             for (int i = 0; i < numLinea; i++)
             {
-                stream.Write(Commands.LF);
+                stream.Write(TecPVCommands.LF);
             }
             //stream.Write(Commands.ESC);
             //stream.Write(GetBytes('d'));
@@ -165,7 +162,7 @@ namespace TicketHandler
         /// <param name="stream"></param>
         private static void CambiarCodePage(this MemoryStream stream)
         {
-            stream.Write(Commands.ESC);
+            stream.Write(TecPVCommands.ESC);
             stream.Write(GetBytes('t'));
             stream.Write(GetBytes(19));
         }
@@ -176,7 +173,7 @@ namespace TicketHandler
         /// <param name="stream"></param>
         private static void CortarFactura(this MemoryStream stream)
         {
-            stream.Write(Commands.GS);
+            stream.Write(TecPVCommands.GS);
             stream.Write(GetBytes('V'));
             stream.Write(GetBytes('0'));
         }
@@ -187,10 +184,10 @@ namespace TicketHandler
         /// <param name="stream"></param>
         private static void TextoGrande(this MemoryStream stream)
         {
-            stream.Write(Commands.ESC);
+            stream.Write(TecPVCommands.ESC);
             stream.Write(GetBytes('!'));
             stream.Write(GetBytes(16));
-            stream.Write(Commands.ESC);
+            stream.Write(TecPVCommands.ESC);
             stream.Write(GetBytes('!'));
             stream.Write(GetBytes(32));
         }
@@ -201,7 +198,7 @@ namespace TicketHandler
         /// <param name="stream"></param>
         private static void TextoNegrita(this MemoryStream stream)
         {
-            stream.Write(Commands.ESC);
+            stream.Write(TecPVCommands.ESC);
             stream.Write(GetBytes('!'));
             stream.Write(GetBytes(8));
         }
@@ -212,7 +209,7 @@ namespace TicketHandler
         /// <param name="stream"></param>
         private static void TituloFactura(this MemoryStream stream)
         {
-            stream.Write(Commands.ESC);
+            stream.Write(TecPVCommands.ESC);
             stream.Write(GetBytes('!'));
             stream.Write(GetBytes(8));
         }
@@ -223,9 +220,16 @@ namespace TicketHandler
         /// <param name="stream"></param>
         private static void CentrarTexto(this MemoryStream stream)
         {
-            stream.Write(Commands.ESC);
+            stream.Write(TecPVCommands.ESC);
             stream.Write(GetBytes('a'));
             stream.Write(GetBytes(1));
+        }
+
+        private static void SeleccionarIdioma(this MemoryStream stream)
+        {
+            stream.Write(TecMovilCommands.ESC);
+            stream.Write(GetBytes('R'));
+            stream.Write(GetBytes(11));
         }
 
         /// <summary>
@@ -234,13 +238,13 @@ namespace TicketHandler
         /// <param name="stream"></param>
         private static void ConfigurarCodigoBarras(this MemoryStream stream)
         {
-            stream.Write(Commands.GS);
+            stream.Write(TecPVCommands.GS);
             stream.Write(GetBytes('h'));
             stream.Write(GetBytes(65));
-            stream.Write(Commands.GS);
+            stream.Write(TecPVCommands.GS);
             stream.Write(GetBytes('w'));
             stream.Write(GetBytes(2));
-            stream.Write(Commands.GS);
+            stream.Write(TecPVCommands.GS);
             stream.Write(GetBytes('k'));
             stream.Write(GetBytes(4));
         }
@@ -250,7 +254,7 @@ namespace TicketHandler
         /// <param name="stream"></param>
         private static void TextoDefecto(this MemoryStream stream)
         {
-            stream.Write(Commands.ESC);
+            stream.Write(TecPVCommands.ESC);
             stream.Write(GetBytes('!'));
             stream.Write(GetBytes(2));
         }
@@ -260,7 +264,7 @@ namespace TicketHandler
         /// <param name="stream"></param>
         private static void TextoCentradoIzquierda(this MemoryStream stream)
         {
-            stream.Write(Commands.ESC);
+            stream.Write(TecPVCommands.ESC);
             stream.Write(GetBytes('a'));
             stream.Write(GetBytes(0));
         }
@@ -305,41 +309,56 @@ namespace TicketHandler
         {
 
             stream.TextoNegrita();
-            stream.WriteLn($"Codigo  Descrip.  Precio  Dto%  Dto E  IGIC  Importe", 1);
+            stream.WriteLn($"Codigo  Descrip.                                       Precio  Dto%  Dto E  IGIC  Importe", 1);
             stream.TextoDefecto();
-            stream.WriteLn($"{"".PadLeft(47, '=')}", 1);
-                ticket.DocumentLines.ForEach(line =>
-                {
-                    string itemName = new string(line.ItemName.Take(16).ToArray());
-                    stream.WriteLn($" {line.ItemCode} " +
-                        $" {itemName} " +
-                        $"{TicketHandlerUtils.FormatAsMoney(line.PrecioUnitario).ToString()} " +
-                        $" {line.Quantity} " +
-                        $" {line.PorcentajeDescuento} " +
-                        $" {line.ImporteDescuento} " +
-                        $" {line.ImporteIGIC}  " +
-                        TicketHandlerUtils.FormatAsMoney(line.ImporteTotal).ToString(),
-                        1);
-                });
+            stream.Separator();
+            ticket.DocumentLines.ForEach(line =>
+            {
+                //string itemName = new string(line.ItemName.Take(16).ToArray());
+                stream.WriteLn($" {line.ItemCode} " +
+                    $" {line.ItemName} " +
+                    $"{TicketHandlerUtils.FormatAsMoney(line.PrecioUnitario).ToString()} " +
+                    $" {line.Quantity} " +
+                    $" {line.PorcentajeDescuento} " +
+                    $" {line.ImporteDescuento} " +
+                    $" {line.ImporteIGIC}  " +
+                    TicketHandlerUtils.FormatAsMoney(line.ImporteTotal).ToString(),
+                    1);
+            });
             stream.TextoDefecto();
-            stream.WriteLn($"{"".PadLeft(47, '=')}", 1);
+            stream.Separator();
 
-            var tipoDocumento = "SUBTOTAL:".PadLeft(30) + (ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.ImporteTotal.ToString().PadLeft(15);
+            var importSubTotal = "SUBTOTAL:".PadLeft(30) + (ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.ImporteTotal.ToString().PadLeft(15);
 
             stream.TextoNegrita();
-            stream.Write(GetBytes(tipoDocumento));
+            stream.Write(GetBytes(importSubTotal));
             stream.Write(Euro());
 
             stream.WriteLn("", 2);
 
             var importeTotal = "TOTAL:".PadLeft(30) + (ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.ImporteTotal.ToString().PadLeft(15);
 
+            stream.TextoDefecto();
+            stream.Separator();
+
             stream.TextoNegrita();
-            stream.Write(GetBytes(importeTotal));
-            stream.Write(Euro());
+            stream.WriteLn("Base Imp.        %IGIC           Imp. IGIC" + "Total".PadLeft(25),1);
+            
             stream.TextoDefecto();
 
-            stream.SkipLines(2);
+            ticket.DocumentLines.ForEach(line =>
+            {
+                var porcImpuesto = (line.ImporteIGIC / line.ImporteTotal) * 100;
+                stream.WriteLn($" {line.Importe} " +
+                    $" {line.Impuesto} " +
+                    $"{TicketHandlerUtils.FormatAsMoney(porcImpuesto).ToString()} " +
+                    $" {line.ImporteIGIC} " +
+                    TicketHandlerUtils.FormatAsMoney(line.ImporteTotal).ToString(),
+                    1);
+            }
+            );
+            stream.WriteLn($"{ticket.DocumentHeader.ImporteTotal}".PadLeft(65), 1);
+
             ticket.DocumentPayments.ForEach(payment =>
             {
                 ViaPago viaPago = viasPago.FirstOrDefault(paymentType => payment.EntryViaPago == paymentType.CreditCard);
@@ -364,6 +383,11 @@ namespace TicketHandler
             });
 
             stream.SkipLines(3);
+        }
+
+        private static void Separator(this MemoryStream stream)
+        {
+            stream.WriteLn($"{"".PadLeft(47, '=')}", 1);
         }
 
 
