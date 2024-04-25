@@ -21,7 +21,7 @@ namespace TicketHandler
             {
                 var tfnEmpresa = infoEmpresa.Telefono;
                 var footerLines = infoEmpresa.Footer;
-
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                 MemoryStream printer = new MemoryStream();
 
                 printer.InicializarImpresora();
@@ -137,7 +137,7 @@ namespace TicketHandler
         /// <param name="linesToSkip"></param>
         private static void WriteLn(this MemoryStream stream, string content, int linesToSkip)
         {
-            stream.Write(Encoding.GetEncoding(888).GetBytes(content));
+            stream.Write(Encoding.GetEncoding(858).GetBytes(content));
             SkipLines(stream, linesToSkip);
         }
         /// <summary>
@@ -412,7 +412,7 @@ namespace TicketHandler
         private static byte[] Euro()
         {
             char euro = '€';
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            
             var euroBytes = Encoding.GetEncoding(858).GetBytes(euro.ToString());
             //byte[] euroBytes = { 0xA4 };
             return euroBytes;
