@@ -7,6 +7,7 @@ using System.Text;
 using System.Xml.Linq;
 using TicketHandler.modelo;
 using TicketHandler.utils;
+using System.Runtime.CompilerServices;
 
 namespace TicketHandler
 {
@@ -15,7 +16,7 @@ namespace TicketHandler
         const string DOCTYPE_ABONO = "TA";
 
         public static Dictionary<string, object> printTicket(Document doc, InfoEmpresa infoEmpresa
-            , List<ViaPago> viasPago, Cliente cliente, bool proforma, string empleado, bool mostrarCodigoArticulo = false, bool printFooter = false, string ruta = "./pruebaFactura.txt")
+            , List<ViaPago> viasPago, Cliente cliente, bool proforma, string empleado, bool printFooter = false, string ruta = "./pruebaFactura.txt")
         {
             try
             {
@@ -70,7 +71,7 @@ namespace TicketHandler
                     printer.WriteLn($"Direccion: {cliente.Address}", 1);
                 }
 
-                printer.PrintProductsAndPayments(doc, viasPago, mostrarCodigoArticulo);
+                printer.PrintProductsAndPayments(doc, viasPago);
 
                 if (printFooter)
                 {
@@ -301,43 +302,26 @@ namespace TicketHandler
         /// <param name="stream"></param>
         /// <param name="ticket"></param>
         /// <param name="viasPago"></param>
-        private static void PrintProductsAndPayments(this MemoryStream stream, Document ticket, List<ViaPago> viasPago, bool mostrarCodigoArticulo)
+        private static void PrintProductsAndPayments(this MemoryStream stream, Document ticket, List<ViaPago> viasPago)
         {
 
             stream.TextoNegrita();
-            stream.WriteLn($"{"UDS DESCRIPCION".PadRight(33)}PRECIO IMPORTE", 1);
+            stream.WriteLn($"Codigo  Descrip.  Precio  Dto%  Dto E  IGIC  Importe", 1);
             stream.TextoDefecto();
             stream.WriteLn($"{"".PadLeft(47, '=')}", 1);
-            if (ticket.DocumentHeader.ImportePromocion > Decimal.Zero)
-            {
-                ticket.DocumentLines.ForEach(line => {
-                    string itemName = new string(line.ItemName.Take(16).ToArray());
-                    stream.WriteLn($" {line.Quantity}  ${itemName.PadRight(20)}", 1);
-
-                    if (mostrarCodigoArticulo)
-                    {
-                        stream.WriteLn($"{line.ItemCode.PadLeft(15)}", 1);
-                    }
-                });
-
-            }
-            else
-            {
                 ticket.DocumentLines.ForEach(line =>
                 {
                     string itemName = new string(line.ItemName.Take(16).ToArray());
-                    stream.WriteLn($" {line.Quantity}  " +
-                        $"{itemName.PadRight(20)} " +
-                        $"{TicketHandlerUtils.FormatAsMoney(line.PrecioUnitario).ToString().PadLeft(12)} " +
+                    stream.WriteLn($" {line.ItemCode} " +
+                        $"{itemName} " +
+                        $"{TicketHandlerUtils.FormatAsMoney(line.PrecioUnitario).ToString()} " +
+                        $"{line.Quantity} " +
+                        $"{line.PorcentajeDescuento} " +
+                        $"{line.ImporteDescuento} " +
+                        $"{line.ImporteIGIC} " +
                         TicketHandlerUtils.FormatAsMoney(line.ImporteTotal).ToString().PadLeft(7),
                         1);
-
-                    if (mostrarCodigoArticulo)
-                    {
-                        stream.WriteLn(line.ItemCode.PadLeft(15), 1);
-                    }
                 });
-            }
             stream.TextoDefecto();
             stream.WriteLn($"{"".PadLeft(47, '=')}", 1);
 
