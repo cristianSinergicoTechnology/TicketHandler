@@ -19,6 +19,7 @@ namespace TicketHandler
         {
             try
             {
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                 var tfnEmpresa = infoEmpresa.Telefono;
                 var footerLines = infoEmpresa.Footer;
 
@@ -137,7 +138,7 @@ namespace TicketHandler
         /// <param name="linesToSkip"></param>
         private static void WriteLn(this MemoryStream stream, string content, int linesToSkip)
         {
-            stream.Write(Encoding.GetEncoding(888).GetBytes(content));
+            stream.Write(Encoding.GetEncoding(858).GetBytes(content));
             SkipLines(stream, linesToSkip);
         }
         /// <summary>
@@ -318,12 +319,12 @@ namespace TicketHandler
                 //string itemName = new string(line.ItemName.Take(16).ToArray());
                 stream.WriteLn($" {line.ItemCode} " +
                     $" {line.ItemName} " +
-                    $"{TicketHandlerUtils.FormatAsMoney(line.PrecioUnitario).ToString()} " +
+                    $"{TicketHandlerUtils.FormatAsMoney(line.PrecioUnitario)}€ " +
                     $" {line.Quantity} " +
                     $" {line.PorcentajeDescuento} " +
                     $" {line.ImporteDescuento} " +
                     $" {line.ImporteIGIC}  " +
-                    TicketHandlerUtils.FormatAsMoney(line.ImporteTotal).ToString(),
+                    $"{TicketHandlerUtils.FormatAsMoney(line.ImporteTotal)}€",
                     1);
             });
             stream.TextoDefecto();
@@ -347,17 +348,21 @@ namespace TicketHandler
             
             stream.TextoDefecto();
 
-            ticket.DocumentLines.ForEach(line =>
+            var impuestosOrdenados = ticket.DocumentLines.GroupBy(x => x.Impuesto);
+            var importeAcumulado = ticket.DocumentHeader.Importe;
+            impuestosOrdenados.ToList().ForEach(lineaImpuesto =>
             {
-                var porcImpuesto = (line.ImporteIGIC / line.ImporteTotal) * 100;
-                stream.WriteLn($" {line.Importe} " +
-                    $" {line.Impuesto} " +
-                    $"{TicketHandlerUtils.FormatAsMoney(porcImpuesto).ToString()} " +
-                    $" {line.ImporteIGIC} " +
-                    TicketHandlerUtils.FormatAsMoney(line.ImporteTotal).ToString(),
+                var importe = lineaImpuesto.Sum(l => l.Importe);
+                var porcentajeImpuesto = lineaImpuesto.First().Impuesto;
+                var igic = lineaImpuesto.Sum(i => i.ImporteIGIC);
+                importeAcumulado += igic;
+                stream.WriteLn($" {importe}      " +
+                    $" {porcentajeImpuesto * 100}%               " +
+                    $"{igic}€                                     " +
+                    $"{TicketHandlerUtils.FormatAsMoney(importeAcumulado.GetValueOrDefault(Decimal.Zero))}€",
                     1);
-            }
-            );
+            });
+            
             stream.WriteLn($"{ticket.DocumentHeader.ImporteTotal}".PadLeft(65), 1);
 
             ticket.DocumentPayments.ForEach(payment =>
@@ -412,7 +417,6 @@ namespace TicketHandler
         private static byte[] Euro()
         {
             char euro = '€';
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             var euroBytes = Encoding.GetEncoding(858).GetBytes(euro.ToString());
             //byte[] euroBytes = { 0xA4 };
             return euroBytes;
