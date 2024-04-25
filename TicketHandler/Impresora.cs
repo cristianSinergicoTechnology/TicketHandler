@@ -15,8 +15,7 @@ namespace TicketHandler
     {
         const string DOCTYPE_ABONO = "TA";
 
-        public static Dictionary<string, object> printTicket(Document doc, InfoEmpresa infoEmpresa
-            , List<ViaPago> viasPago, Cliente cliente, bool proforma, string empleado, bool printFooter = false, string ruta = "./pruebaFactura.txt")
+        public static Dictionary<string, object> printTicket(Document doc, InfoEmpresa infoEmpresa, List<ViaPago> viasPago, Cliente cliente, bool proforma, string empleado, bool printFooter = false)
         {
             try
             {
@@ -313,13 +312,13 @@ namespace TicketHandler
                 {
                     string itemName = new string(line.ItemName.Take(16).ToArray());
                     stream.WriteLn($" {line.ItemCode} " +
-                        $"{itemName} " +
+                        $" {itemName} " +
                         $"{TicketHandlerUtils.FormatAsMoney(line.PrecioUnitario).ToString()} " +
-                        $"{line.Quantity} " +
-                        $"{line.PorcentajeDescuento} " +
-                        $"{line.ImporteDescuento} " +
-                        $"{line.ImporteIGIC} " +
-                        TicketHandlerUtils.FormatAsMoney(line.ImporteTotal).ToString().PadLeft(7),
+                        $" {line.Quantity} " +
+                        $" {line.PorcentajeDescuento} " +
+                        $" {line.ImporteDescuento} " +
+                        $" {line.ImporteIGIC}  " +
+                        TicketHandlerUtils.FormatAsMoney(line.ImporteTotal).ToString(),
                         1);
                 });
             stream.TextoDefecto();

@@ -1,3 +1,7 @@
 
 /.vs
 /TicketHandler/obj
+/packages
+/TicketHandler/.vs
+/TicketHandler/bin
+/TicketHandler/TicketHandler.csproj.user
