@@ -330,7 +330,7 @@ namespace TicketHandler
             stream.TextoDefecto();
             stream.Separator();
 
-            var importSubTotal = "SUBTOTAL:".PadLeft(30) + (ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.ImporteTotal.ToString().PadLeft(15);
+            var importSubTotal = "SUBTOTAL:".PadLeft(30) + (ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.Importe.ToString().PadLeft(15);
 
             stream.TextoNegrita();
             stream.Write(GetBytes(importSubTotal));
@@ -357,7 +357,7 @@ namespace TicketHandler
                 var igic = lineaImpuesto.Sum(i => i.ImporteIGIC);
                 importeAcumulado += igic;
                 stream.WriteLn($" {importe}      " +
-                    $" {porcentajeImpuesto * 100}%               " +
+                    $" {porcentajeImpuesto}%               " +
                     $"{igic}€                                     " +
                     $"{TicketHandlerUtils.FormatAsMoney(importeAcumulado.GetValueOrDefault(Decimal.Zero))}€",
                     1);
