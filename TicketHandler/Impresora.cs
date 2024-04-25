@@ -149,9 +149,10 @@ namespace TicketHandler
         /// <param name="numLinea"></param>
         private static void SkipLines(this MemoryStream stream, int numLinea)
         {
-            for(int i = 0; i < numLinea; i++)
+            stream.Write(Commands.SKIP_LINE);
+            for (int i = 0; i < numLinea; i++)
             {
-                stream.Write(Commands.SKIP_LINE); // vamos a probar esto
+                stream.Write(GetBytes("".PadLeft(47,' ')));// vamos a probar esto
             }
             // stream.Write(Commands.ESC);
             // stream.Write(GetBytes('d'));
