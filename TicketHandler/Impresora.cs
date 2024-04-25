@@ -152,11 +152,11 @@ namespace TicketHandler
             stream.Write(Commands.SKIP_LINE);
             for (int i = 0; i < numLinea; i++)
             {
-                stream.Write(GetBytes("".PadLeft(47,' ')));// vamos a probar esto
+                stream.Write(Commands.LF);
             }
-            // stream.Write(Commands.ESC);
-            // stream.Write(GetBytes('d'));
-            // stream.Write(GetBytes(numLinea));
+            //stream.Write(Commands.ESC);
+            //stream.Write(GetBytes('d'));
+            //stream.Write(GetBytes(numLinea));
         }
 
         /// <summary>
