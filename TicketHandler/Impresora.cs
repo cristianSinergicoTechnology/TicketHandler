@@ -23,6 +23,7 @@ namespace TicketHandler
                 var footerLines = infoEmpresa.Footer;
 
                 MemoryStream printer = new MemoryStream();
+
                 printer.InicializarImpresora();
                 printer.CambiarCodePage();
                 printer.SeleccionarIdioma();
@@ -84,7 +85,7 @@ namespace TicketHandler
 
                 // Rellanamos 5 filas para que no se corte información de la factura
                 printer.SkipLines(5);
-                printer.CortarFactura();
+                printer.CortarFacturaTecPV();
 
                 printer.Close();
 
@@ -136,7 +137,7 @@ namespace TicketHandler
         /// <param name="linesToSkip"></param>
         private static void WriteLn(this MemoryStream stream, string content, int linesToSkip)
         {
-            stream.Write(Encoding.Default.GetBytes(content));
+            stream.Write(Encoding.GetEncoding(888).GetBytes(content));
             SkipLines(stream, linesToSkip);
         }
         /// <summary>
@@ -171,7 +172,7 @@ namespace TicketHandler
         /// Se encarga de cortar el papel de la factura
         /// </summary>
         /// <param name="stream"></param>
-        private static void CortarFactura(this MemoryStream stream)
+        private static void CortarFacturaTecPV(this MemoryStream stream)
         {
             stream.Write(TecPVCommands.GS);
             stream.Write(GetBytes('V'));
@@ -395,17 +396,17 @@ namespace TicketHandler
 
         private static byte[] GetBytes(char letra)
         {
-            return Encoding.Default.GetBytes(letra.ToString());
+            return Encoding.GetEncoding(858).GetBytes(letra.ToString());
         }
 
         private static byte[] GetBytes(int numero)
         {
-            return Encoding.Default.GetBytes(((char)numero).ToString());
+            return Encoding.GetEncoding(858).GetBytes(((char)numero).ToString());
         }
 
         private static byte[] GetBytes(string content)
         {
-            return Encoding.Default.GetBytes(content);
+            return Encoding.GetEncoding(858).GetBytes(content);
         }
 
         private static byte[] Euro()
