@@ -21,11 +21,11 @@ namespace TicketHandler.modelo
         public string ShipTo { get; set; } = "";
         public string CardCode { get; set; }
         public string bReplicaFactura { get; set; }
-        public Decimal? Importe { get; set; }
-        public Decimal? ImporteImpuesto { get; set; }
-        public Decimal? ImporteTotal { get; set; } = default;
-        public Decimal? ImporteCobrado { get; set; } = default;
-        public Decimal? ImportePromocion { get; set; } = default;
+        public double? Importe { get; set; }
+        public double? ImporteImpuesto { get; set; }
+        public double? ImporteTotal { get; set; } = default;
+        public double? ImporteCobrado { get; set; } = default;
+        public double? ImportePromocion { get; set; } = default;
         public string CreateDate { get; set; }
         public string CreateTime { get; set; }
         public string UpdateDate { get; set; }

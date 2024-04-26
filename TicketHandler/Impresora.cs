@@ -416,7 +416,7 @@ namespace TicketHandler
             stream.WriteLn($"{"UDS DESCRIPCION".PadRight(33)}PRECIO IMPORTE", 1);
             stream.TextoDefecto();
             stream.WriteLn($"{"".PadLeft(47, '=')}", 1);
-            if (ticket.DocumentHeader.ImportePromocion > Decimal.Zero)
+            if (ticket.DocumentHeader.ImportePromocion > 0.0)
             {
                 ticket.DocumentLines.ForEach(line => {
                     string itemName = new string(line.ItemName.Take(16).ToArray());
@@ -479,7 +479,7 @@ namespace TicketHandler
                 stream.Write(GetBytes(entregado));
                 stream.Write(Euro());
                 stream.SkipLines(1);
-                if (payment.Cambio != Decimal.Zero)
+                if (payment.Cambio != 0.0)
                 {
                     var cambio = "CAMBIO: ".PadLeft(30) + payment.Cambio.ToString().PadLeft(15);
                     stream.Write(GetBytes(cambio));
@@ -539,13 +539,13 @@ namespace TicketHandler
             impuestosOrdenados.ToList().ForEach(lineaImpuesto =>
             {
                 var importe = lineaImpuesto.Sum(l => l.Importe);
-                var porcentajeImpuesto = lineaImpuesto.First().Impuesto;
+                var porcentajeImpuesto = lineaImpuesto.First().Impuesto; 
                 var igic = lineaImpuesto.Sum(i => i.ImporteIGIC);
                 importeAcumulado += igic;
                 stream.WriteLn($" {importe}      " +
-                    $"        {porcentajeImpuesto}%               " +
+                    $"        {porcentajeImpuesto}%               " + 
                     $"           {igic}€                                     " +
-                    $"{TicketHandlerUtils.FormatAsMoney(importeAcumulado.GetValueOrDefault(Decimal.Zero))}€",
+                    $"{TicketHandlerUtils.FormatAsMoney(importeAcumulado.GetValueOrDefault(0.0))}€",
                     1);
             });
             
@@ -563,7 +563,7 @@ namespace TicketHandler
                 stream.SkipLines(1);
                     var entregado = "".PadLeft(45)+ "ENTREGADO: " + payment.Entregado.ToString().PadLeft(14) + "€";
                     stream.WriteLn(entregado,1);
-                if (payment.Cambio != Decimal.Zero)
+                if (payment.Cambio != 0.0)
                 {
                     var cambio = "CAMBIO: ".PadLeft(45) + payment.Cambio.ToString().PadLeft(14) + "€";
                     stream.WriteLn(cambio,1);

@@ -9,9 +9,9 @@ namespace TicketHandler.utils
 {
     public class TicketHandlerUtils
     {
-        public static Decimal FormatAsMoney(Decimal num)
+        public static double FormatAsMoney(double num)
         {
-            return Decimal.Round(num, 2, MidpointRounding.AwayFromZero);
+            return Math.Round(num, 2);
         }
     }
 }

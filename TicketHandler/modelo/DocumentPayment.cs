@@ -15,9 +15,9 @@ namespace TicketHandler.modelo
         public string IDAnulacion { get; set; }
         public string IDCierre { get; set; } = "";
         public string TipoCobro { get; set; }
-        public Decimal Importe { get; set; }
-        public Decimal Entregado { get; set; } = default;
-        public Decimal Cambio { get; set; } = default;
+        public double Importe { get; set; }
+        public double Entregado { get; set; } = default;
+        public double Cambio { get; set; } = default;
         public string ViaPago { get; set; } = "";
         public int EntryViaPago { get; set; }
         public string EmpID { get; set; }

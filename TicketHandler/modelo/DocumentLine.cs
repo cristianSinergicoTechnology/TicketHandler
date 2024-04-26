@@ -16,14 +16,14 @@ namespace TicketHandler.modelo
         public int UoMEntry { get; set; }
         public string UoM { get; set; }
         public string PromotionID { get; set; } = "";
-        public Decimal PrecioUnitario { get; set; }
-        public Decimal PorcentajeDescuento { get; set; }
-        public Decimal ImporteDescuento { get; set; }
-        public Decimal Importe { get; set; }
+        public double PrecioUnitario { get; set; }
+        public double PorcentajeDescuento { get; set; }
+        public double ImporteDescuento { get; set; }
+        public double Importe { get; set; }
         public string TipoImpuesto { get; set; }
-        public Decimal Impuesto { get; set; }
-        public Decimal ImporteIGIC { get; set; }
-        public Decimal ImporteTotal { get; set; }
+        public double Impuesto { get; set; }
+        public double ImporteIGIC { get; set; }
+        public double ImporteTotal { get; set; }
         public string EmpID { get; set; }
         public string CreateDate { get; set; }
         public string CreateTime { get; set; }
