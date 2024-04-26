@@ -407,7 +407,7 @@ namespace TicketHandler
         }
 
         /// <summary>
-        /// Función para imprimir los productos, vías de pago e importes
+        /// Función para imprimir los productos, vías de pago e importes de TECPV
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="ticket"></param>
@@ -440,7 +440,7 @@ namespace TicketHandler
                     stream.WriteLn($" {line.Quantity}  " +
                         $"{itemName.PadRight(20)} " +
                         $"{TicketHandlerUtils.FormatAsMoney(line.PrecioUnitario).ToString().PadLeft(12)} " +
-                        TicketHandlerUtils.FormatAsMoney(line.ImporteTotal).ToString().PadLeft(7),
+                        TicketHandlerUtils.FormatAsMoney(line.Importe).ToString().PadLeft(7),
                         1);
 
                     if (mostrarCodigoArticulo)
@@ -495,7 +495,7 @@ namespace TicketHandler
         }
 
         /// <summary>
-        /// Función para imprimir los productos, vías de pago e importes
+        /// Función para imprimir los productos, vías de pago e importes de TECMOVIL
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="ticket"></param>
@@ -509,7 +509,6 @@ namespace TicketHandler
             stream.Separator();
             ticket.DocumentLines.ForEach(line =>
             {
-                //string itemName = new string(line.ItemName.Take(16).ToArray());
                 stream.WriteLn($" {line.ItemCode} " +
                     $"    {line.ItemName} " +
                     $"        {TicketHandlerUtils.FormatAsMoney(line.Quantity)} " +
@@ -517,7 +516,7 @@ namespace TicketHandler
                     $"    {line.PorcentajeDescuento} " +
                     $"    {line.ImporteDescuento} " +
                     $"    {line.ImporteIGIC}  " +
-                    $"    {TicketHandlerUtils.FormatAsMoney(line.ImporteTotal)}€",
+                    $"    {TicketHandlerUtils.FormatAsMoney(line.Importe)}€",
                     1);
             });
             stream.TextoDefecto();
