@@ -73,7 +73,7 @@ namespace TicketHandler
                     printer.WriteLn($"Dirección: {cliente.Address}", 1);
                 }
 
-                printer.PrintProductsAndPayments(doc, viasPago);
+                printer.PrintProductsAndPaymentsTecMovil(doc, viasPago);
 
                 if (printFooter)
                 {
@@ -104,7 +104,7 @@ namespace TicketHandler
             }
         }
 
-        public static Dictionary<string, object> printTicketTecPV(Document doc, InfoEmpresa infoEmpresa, List<ViaPago> viasPago, Cliente cliente, bool proforma, string empleado, bool printFooter = false)
+        public static Dictionary<string, object> printTicketTecPV(Document doc, InfoEmpresa infoEmpresa, List<ViaPago> viasPago, Cliente cliente, bool proforma, string empleado, bool mostrarCodigoArticulo = false, bool printFooter = true)
         {
             try
             {
@@ -162,7 +162,7 @@ namespace TicketHandler
                     printer.WriteLn($"Dirección: {cliente.Address}", 1);
                 }
 
-                printer.PrintProductsAndPayments(doc, viasPago);
+                printer.PrintProductsAndPaymentsTecPV(doc, viasPago, mostrarCodigoArticulo);
 
                 if (printFooter)
                 {
@@ -409,80 +409,86 @@ namespace TicketHandler
         /// <param name="stream"></param>
         /// <param name="ticket"></param>
         /// <param name="viasPago"></param>
-        private static void PrintProductsAndPaymentsTecPV(this MemoryStream stream, Document ticket, List<ViaPago> viasPago)
+        private static void PrintProductsAndPaymentsTecPV(this MemoryStream stream, Document ticket, List<ViaPago> viasPago, bool mostrarCodigoArticulo)
         {
 
             stream.TextoNegrita();
-            stream.WriteLn($"Codigo    Descrip.        Cant.    Precio    Dto%    Dto E    IGIC    Importe", 1);
+            stream.WriteLn($"{"UDS DESCRIPCION".PadRight(33)}PRECIO IMPORTE", 1);
             stream.TextoDefecto();
-            stream.Separator();
-            ticket.DocumentLines.ForEach(line =>
+            stream.WriteLn($"{"".PadLeft(47, '=')}", 1);
+            if (ticket.DocumentHeader.ImportePromocion > Decimal.Zero)
             {
-                //string itemName = new string(line.ItemName.Take(16).ToArray());
-                stream.WriteLn($" {line.ItemCode} " +
-                    $"    {line.ItemName} " +
-                    $"        {TicketHandlerUtils.FormatAsMoney(line.Quantity)} " +
-                    $"    {line.PrecioUnitario}€ " +
-                    $"    {line.PorcentajeDescuento} " +
-                    $"    {line.ImporteDescuento} " +
-                    $"    {line.ImporteIGIC}  " +
-                    $"    {TicketHandlerUtils.FormatAsMoney(line.ImporteTotal)}€",
-                    1);
-            });
+                ticket.DocumentLines.ForEach(line => {
+                    string itemName = new string(line.ItemName.Take(16).ToArray());
+                    stream.WriteLn($" {line.Quantity}  ${itemName.PadRight(20)}", 1);
+
+                    if (mostrarCodigoArticulo)
+                    {
+                        stream.WriteLn($"{line.ItemCode.PadLeft(15)}", 1);
+                    }
+                });
+
+            }
+            else
+            {
+                ticket.DocumentLines.ForEach(line =>
+                {
+                    string itemName = new string(line.ItemName.Take(16).ToArray());
+                    stream.WriteLn($" {line.Quantity}  " +
+                        $"{itemName.PadRight(20)} " +
+                        $"{TicketHandlerUtils.FormatAsMoney(line.PrecioUnitario).ToString().PadLeft(12)} " +
+                        TicketHandlerUtils.FormatAsMoney(line.ImporteTotal).ToString().PadLeft(7),
+                        1);
+
+                    if (mostrarCodigoArticulo)
+                    {
+                        stream.WriteLn(line.ItemCode.PadLeft(15), 1);
+                    }
+                });
+            }
             stream.TextoDefecto();
-            stream.Separator();
-            stream.WriteLn("", 4);
-            var importSubTotal = "SUBTOTAL:".PadLeft(60) + (ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.ImporteTotal.ToString().PadLeft(15);
+            stream.WriteLn($"{"".PadLeft(47, '=')}", 1);
+
+            var tipoDocumento = "SUBTOTAL:".PadLeft(30) + (ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.ImporteTotal.ToString().PadLeft(15);
 
             stream.TextoNegrita();
-            stream.WriteLn(importSubTotal + "€", 1);
+            stream.Write(GetBytes(tipoDocumento));
+            stream.Write(Euro());
 
+            stream.WriteLn("", 2);
 
-            stream.TextoDefecto();
-            stream.Separator();
+            var importeTotal = "TOTAL:".PadLeft(30) + (ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.ImporteTotal.ToString().PadLeft(15);
 
             stream.TextoNegrita();
-            stream.WriteLn("Base Imp.        %IGIC           Imp. IGIC" + "Total".PadLeft(25), 1);
-
+            stream.Write(GetBytes(importeTotal));
+            stream.Write(Euro());
             stream.TextoDefecto();
 
-            var impuestosOrdenados = ticket.DocumentLines.GroupBy(x => x.Impuesto);
-            var importeAcumulado = ticket.DocumentHeader.Importe;
-            impuestosOrdenados.ToList().ForEach(lineaImpuesto =>
-            {
-                var importe = lineaImpuesto.Sum(l => l.Importe);
-                var porcentajeImpuesto = lineaImpuesto.First().Impuesto;
-                var igic = lineaImpuesto.Sum(i => i.ImporteIGIC);
-                importeAcumulado += igic;
-                stream.WriteLn($" {importe}      " +
-                    $"        {porcentajeImpuesto}%               " +
-                    $"           {igic}€                                     " +
-                    $"{TicketHandlerUtils.FormatAsMoney(importeAcumulado.GetValueOrDefault(Decimal.Zero))}€",
-                    1);
-            });
-
-            stream.WriteLn($"{ticket.DocumentHeader.ImporteTotal}€".PadLeft(60), 1);
-
+            stream.SkipLines(2);
             ticket.DocumentPayments.ForEach(payment =>
             {
                 ViaPago viaPago = viasPago.FirstOrDefault(paymentType => payment.EntryViaPago == paymentType.CreditCard);
                 if (viaPago != null)
                 {
-                    var pago = "".PadLeft(60) + viaPago.Nombre.ToUpper() + (((ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + payment.Importe.ToString())).PadLeft(15);
+                    var pago = (viaPago.Nombre.ToUpper().PadLeft(30) + (((ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + payment.Importe.ToString())).PadLeft(15));
                     stream.Write(GetBytes(pago));
                     stream.Write(Euro());
                 }
                 stream.SkipLines(1);
-                var entregado = "".PadLeft(45) + "ENTREGADO: " + payment.Entregado.ToString().PadLeft(14) + "€";
-                stream.WriteLn(entregado, 1);
+                var entregado = "ENTREGADO: ".PadLeft(30) + payment.Entregado.ToString().PadLeft(15);
+                stream.Write(GetBytes(entregado));
+                stream.Write(Euro());
+                stream.SkipLines(1);
                 if (payment.Cambio != Decimal.Zero)
                 {
-                    var cambio = "CAMBIO: ".PadLeft(45) + payment.Cambio.ToString().PadLeft(14) + "€";
-                    stream.WriteLn(cambio, 1);
+                    var cambio = "CAMBIO: ".PadLeft(30) + payment.Cambio.ToString().PadLeft(15);
+                    stream.Write(GetBytes(cambio));
+                    stream.Write(Euro());
+                    stream.SkipLines(1);
                 }
             });
 
-            stream.SkipLines(1);
+            stream.SkipLines(3);
         }
 
         /// <summary>
