@@ -21,7 +21,7 @@ namespace TicketHandler.modelo
         public double ImporteDescuento { get; set; }
         public double Importe { get; set; }
         public string TipoImpuesto { get; set; }
-        public double Impuesto { get; set; }
+        public string Impuesto { get; set; }
         public double ImporteIGIC { get; set; }
         public double ImporteTotal { get; set; }
         public string EmpID { get; set; }
