@@ -15,7 +15,7 @@ namespace TicketHandler
     {
         const string DOCTYPE_ABONO = "TA";
 
-        public static Dictionary<string, object> printTicketTecMovil(Document doc, InfoEmpresa infoEmpresa, List<ViaPago> viasPago, Cliente cliente, bool proforma, string empleado, bool printFooter = false)
+        public static Dictionary<string, object> printTicketTecMovil(Document doc, InfoEmpresa infoEmpresa, List<ViaPago> viasPago, Cliente cliente, bool proforma, string empleado, bool printFooter = false, bool test = false)
         {
             try
             {
@@ -86,7 +86,10 @@ namespace TicketHandler
 
                 // Rellanamos 5 filas para que no se corte información de la factura
                 printer.SkipLines(5);
-                printer.CortarFacturaTecMovil();
+                if (test)
+                    printer.CortarFacturaTecPV();
+                else
+                    printer.CortarFacturaTecMovil();
 
                 printer.Close();
 
@@ -520,7 +523,7 @@ namespace TicketHandler
             stream.TextoDefecto();
             stream.Separator();
             stream.WriteLn("", 4);
-            var importSubTotal = "SUBTOTAL:".PadLeft(60) + (ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.ImporteTotal.ToString().PadLeft(15);
+            var importSubTotal = "SUBTOTAL:".PadLeft(60) + (ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.Importe.ToString().PadLeft(15);
 
             stream.TextoNegrita();
             stream.WriteLn(importSubTotal + "€",1);
