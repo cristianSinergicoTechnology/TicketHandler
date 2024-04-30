@@ -410,13 +410,22 @@ namespace TicketHandler
             SkipLines(stream, 2);
         }
         /// <summary>
-        /// Función para imprimir separador del ticket.
+        /// Función para imprimir separador del ticket. de TecPV
         /// </summary>
         /// <param name="stream"></param>
-        private static void Separator(this MemoryStream stream)
+        private static void SeparatorTecPV(this MemoryStream stream)
         {
-            stream.WriteLn($"{"".PadLeft(60, '=')}", 1);
+            stream.WriteLn($"{"".PadLeft(47, '=')}", 1);
         }
+        /// <summary>
+        /// Función para imprimir separador del ticket. de TecMovil
+        /// </summary>
+        /// <param name="stream"></param>
+        private static void SeparatorTecMovil(this MemoryStream stream)
+        {
+            stream.WriteLn($"{"".PadLeft(72, '=')}", 1);
+        }
+
 
         /// <summary>
         /// Función para imprimir los productos, vías de pago e importes de TECPV
@@ -518,7 +527,7 @@ namespace TicketHandler
             stream.TextoNegrita();
             stream.WriteLn($"Codigo   Descrip.   Cant.   Precio   Dto%   Dto E   IGIC   Importe", 1);
             stream.TextoDefecto();
-            stream.Separator();
+            stream.SeparatorTecMovil();
             ticket.DocumentLines.ForEach(line =>
             {
                 string UoM = new string(line.UoM.Take(17).ToArray());
@@ -534,16 +543,16 @@ namespace TicketHandler
                     1);
             });
             stream.TextoDefecto();
-            stream.Separator();
+            stream.SeparatorTecMovil();
             stream.WriteLn("", 4);
-            var importSubTotal = "SUBTOTAL:".PadLeft(60) + (ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.Importe.ToString().PadLeft(15);
+            var importSubTotal = "SUBTOTAL:".PadLeft(60) + (ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.Importe.ToString().PadLeft(1);
 
             stream.TextoNegrita();
             stream.WriteLn(importSubTotal + "€",1);
             
 
             stream.TextoDefecto();
-            stream.Separator();
+            stream.SeparatorTecMovil();
 
             stream.TextoNegrita();
             stream.WriteLn("Base Imp.        %IGIC           Imp. IGIC" + "Total".PadLeft(25),1);
