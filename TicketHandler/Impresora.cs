@@ -26,7 +26,7 @@ namespace TicketHandler
                 MemoryStream printer = new MemoryStream();
 
                 printer.InicializarImpresora();
-                printer.CambiarCodePage();
+                printer.CambiarCodePageTecMovil();
                 printer.SeleccionarIdioma();
                 printer.TituloFactura();
                 printer.CentrarTexto();
@@ -118,7 +118,7 @@ namespace TicketHandler
                 MemoryStream printer = new MemoryStream();
 
                 printer.InicializarImpresora();
-                printer.CambiarCodePage();
+                printer.CambiarCodePageTecPV();
                 printer.SeleccionarIdioma();
                 printer.TituloFactura();
                 printer.CentrarTexto();
@@ -249,15 +249,27 @@ namespace TicketHandler
         }
 
         /// <summary>
-        /// Se encarga de generar el símbolo del euro €
+        /// Cambia el CodePage para poder imprimir diéresis, tildes y símbolo € en la impresora TecPV
         /// </summary>
         /// <param name="stream"></param>
-        private static void CambiarCodePage(this MemoryStream stream)
+        private static void CambiarCodePageTecPV(this MemoryStream stream)
         {
             stream.Write(TecPVCommands.ESC);
             stream.Write(GetBytes('t'));
             stream.Write(GetBytes(19));
         }
+
+        /// <summary>
+        /// Cambia el CodePage para poder imprimir diéresis, tildes y símbolo € en la impresora TecPV
+        /// </summary>
+        /// <param name="stream"></param>
+        private static void CambiarCodePageTecMovil(this MemoryStream stream)
+        {
+            stream.Write(TecPVCommands.ESC);
+            stream.Write(GetBytes('t'));
+            stream.Write(GetBytes(4));
+        }
+
 
         /// <summary>
         /// Se encarga de cortar el papel de la factura
@@ -504,19 +516,21 @@ namespace TicketHandler
         {
 
             stream.TextoNegrita();
-            stream.WriteLn($"Codigo    Descrip.        Cant.    Precio    Dto%    Dto E    IGIC    Importe", 1);
+            stream.WriteLn($"Codigo   Descrip.   Cant.   Precio   Dto%   Dto E   IGIC   Importe", 1);
             stream.TextoDefecto();
             stream.Separator();
             ticket.DocumentLines.ForEach(line =>
             {
-                stream.WriteLn($" {line.ItemCode} " +
-                    $"    {line.ItemName} " +
-                    $"        {TicketHandlerUtils.FormatAsMoney(line.Quantity)} " +
-                    $"    {line.PrecioUnitario}€ " +
-                    $"    {line.PorcentajeDescuento} " +
-                    $"    {line.ImporteDescuento} " +
-                    $"    {line.ImporteIGIC}  " +
-                    $"    {TicketHandlerUtils.FormatAsMoney(line.Importe)}€",
+                string UoM = new string(line.UoM.Take(17).ToArray());
+                stream.WriteLn($" {line.ItemCode}" +
+                    $"   {line.ItemName}\n" +
+                    $"   {line.UoM.PadRight(17)}" +
+                    $"   {TicketHandlerUtils.FormatAsMoney(line.Quantity)}" +
+                    $"   {line.PrecioUnitario}€ " +
+                    $"   {line.PorcentajeDescuento} " +
+                    $"   {line.ImporteDescuento} " +
+                    $"   {line.ImporteIGIC}  " +
+                    $"   {TicketHandlerUtils.FormatAsMoney(line.Importe)}€",
                     1);
             });
             stream.TextoDefecto();
@@ -541,13 +555,13 @@ namespace TicketHandler
             impuestosOrdenados.ToList().ForEach(lineaImpuesto =>
             {
                 var importe = lineaImpuesto.Sum(l => l.Importe);
-                var porcentajeImpuesto = lineaImpuesto.First().Impuesto; 
+                var porcentajeImpuesto = TicketHandlerUtils.FormatAsMoney(Double.Parse(lineaImpuesto.First().Impuesto)); 
                 var igic = lineaImpuesto.Sum(i => i.ImporteIGIC);
                 importeAcumulado += igic;
-                stream.WriteLn($" {importe}      " +
+                stream.WriteLn($" {importe}   " +
                     $"        {porcentajeImpuesto}%               " + 
-                    $"           {igic}€                                     " +
-                    $"{TicketHandlerUtils.FormatAsMoney(importeAcumulado.GetValueOrDefault(0.0))}€",
+                    $"           {igic}€" +
+                    $"{(TicketHandlerUtils.FormatAsMoney(importeAcumulado.GetValueOrDefault(0.0)) + "€").PadLeft(25)}",
                     1);
             });
             
