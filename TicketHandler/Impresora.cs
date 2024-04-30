@@ -533,7 +533,7 @@ namespace TicketHandler
                 string UoM = new string(line.UoM.Take(17).ToArray());
                 stream.WriteLn($" {line.ItemCode}" +
                     $"   {line.ItemName}\n" +
-                    $"   {line.UoM.PadRight(17)}" +
+                    $"  {line.UoM.PadRight(17)}" +
                     $"   {TicketHandlerUtils.FormatAsMoney(line.Quantity)}" +
                     $"   {line.PrecioUnitario}€ " +
                     $"   {line.PorcentajeDescuento} " +
@@ -564,11 +564,11 @@ namespace TicketHandler
             impuestosOrdenados.ToList().ForEach(lineaImpuesto =>
             {
                 var importe = lineaImpuesto.Sum(l => l.Importe);
-                var porcentajeImpuesto = TicketHandlerUtils.FormatAsMoney(Double.Parse(lineaImpuesto.First().Impuesto)); 
+                var porcentajeImpuesto = String.Format("{0:N}", double.Parse(lineaImpuesto.First().Impuesto));
                 var igic = lineaImpuesto.Sum(i => i.ImporteIGIC);
                 importeAcumulado += igic;
                 stream.WriteLn($" {importe}   " +
-                    $"        {porcentajeImpuesto}%               " + 
+                    $"          {porcentajeImpuesto}%               " + 
                     $"           {igic}€" +
                     $"{(TicketHandlerUtils.FormatAsMoney(importeAcumulado.GetValueOrDefault(0.0)) + "€").PadLeft(25)}",
                     1);
