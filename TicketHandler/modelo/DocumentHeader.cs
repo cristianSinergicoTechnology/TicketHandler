@@ -34,5 +34,9 @@ namespace TicketHandler.modelo
         public string B_Cobrado { get; set; }
         public string WhsA { get; set; } = "";
         public string WhsC { get; set; } = "";
+        public string CodePagos { get; set; }
+        public string sCodePagos { get; set; }
+        public string NumeroFactura { get; set; }
+
     }
 }
