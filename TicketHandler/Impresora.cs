@@ -16,7 +16,7 @@ namespace TicketHandler
     {
         const string DOCTYPE_ABONO = "TA";
 
-        public static Dictionary<string, object> printTicketTecMovil(Document doc, InfoEmpresa infoEmpresa, List<ViaPago> viasPago, Cliente cliente, bool proforma, string empleado, bool printFooter = false, bool test = false)
+        public static Dictionary<string, object> printTicketTecMovil(Document doc, InfoEmpresa infoEmpresa, List<ViaPago> viasPago, Cliente cliente, bool proforma, string empleado, string printer01, bool printFooter = false, bool test = false)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace TicketHandler
                 printer.TextoDefecto();
                 printer.WriteLn($"Forma de cobro: {doc.DocumentHeader.sCodePagos}", 2);
 
-                printer.PrintProductsAndPaymentsTecMovil(doc, viasPago);
+                printer.PrintProductsAndPaymentsTecMovil(doc, viasPago, printer01);
 
                 if (printFooter)
                 {
@@ -439,9 +439,16 @@ namespace TicketHandler
         /// Función para imprimir separador del ticket. de TecMovil
         /// </summary>
         /// <param name="stream"></param>
-        private static void SeparatorTecMovil(this MemoryStream stream)
+        private static void SeparatorTecMovil(this MemoryStream stream, string printer01 = "001")
         {
-            stream.WriteLn($"{"".PadLeft(69, '=')}", 1);
+            if (printer01 == "001")
+            {
+                stream.WriteLn($"{"".PadLeft(69, '=')}", 1);
+            }
+            else 
+            {
+                stream.WriteLn($"{"".PadLeft(60, '=')}", 1);
+            }
         }
 
 
@@ -539,13 +546,20 @@ namespace TicketHandler
         /// <param name="stream"></param>
         /// <param name="ticket"></param>
         /// <param name="viasPago"></param>
-        private static void PrintProductsAndPaymentsTecMovil(this MemoryStream stream, Document ticket, List<ViaPago> viasPago)
+        private static void PrintProductsAndPaymentsTecMovil(this MemoryStream stream, Document ticket, List<ViaPago> viasPago, string printer01)
         {
             try { 
                 stream.TextoNegrita();
-                stream.SeparatorTecMovil();
-                stream.WriteLn($"Codigo   Descrip.    Cant.   Precio    Dto%   Dto E  IGIC     Importe", 1);
-                stream.SeparatorTecMovil();
+                stream.SeparatorTecMovil(printer01);
+                if (printer01 == "001")
+                {
+                    stream.WriteLn($"Codigo   Descrip.    Cant.   Precio    Dto%   Dto E  IGIC     Importe", 1);
+                }
+                else if (printer01 == "002")
+                {
+                    stream.WriteLn($"Codigo      Cant.   Precio    Dto%   Dto E  IGIC     Importe", 1);
+                }
+                stream.SeparatorTecMovil(printer01);
                 stream.TextoDefecto();
                 if (ticket.DocumentLines != null)
                 {
@@ -555,25 +569,45 @@ namespace TicketHandler
                         stream.TextoNegrita();
                         stream.WriteLn($"{line.ItemCode}   {line.ItemName}", 1);
                         stream.TextoDefecto();
-                        stream.WriteLn($" {line.UoM.PadRight(16)}" +                                                    //17
-                            $" {TicketHandlerUtils.FormatAsMoney(line.Quantity).ToString().PadLeft(7)}" +    //8
-                            $" {String.Format("{0:0.00}", line.PrecioUnitario).PadLeft(9)}" +                //10
-                            $" {line.PorcentajeDescuento.ToString().PadLeft(7)}" +                           //8
-                            $" {line.ImporteDescuento.ToString().PadLeft(7)}" +                              //8
-                            $" {String.Format("{0:0.0}", double.Parse(line.Impuesto) * 100).PadLeft(5)}" +   //6
-                            $" {String.Format("{0:0.00}", TicketHandlerUtils.FormatAsMoney(line.Importe)).PadLeft(11)}",   //12
-                            1);
+                        if (printer01 == "001")
+                        {
+                            stream.WriteLn($" {line.UoM.PadRight(16)}" +                                         //17
+                                $" {TicketHandlerUtils.FormatAsMoney(line.Quantity).ToString().PadLeft(7)}" +    //8
+                                $" {String.Format("{0:0.00}", line.PrecioUnitario).PadLeft(9)}" +                //10
+                                $" {line.PorcentajeDescuento.ToString().PadLeft(7)}" +                           //8
+                                $" {line.ImporteDescuento.ToString().PadLeft(7)}" +                              //8
+                                $" {String.Format("{0:0.0}", double.Parse(line.Impuesto) * 100).PadLeft(5)}" +   //6
+                                $" {String.Format("{0:0.00}", TicketHandlerUtils.FormatAsMoney(line.Importe)).PadLeft(11)}",   //12
+                                1);
+                        }
+                        else if (printer01 == "002")
+                        {
+                            stream.WriteLn($" {line.UoM.PadRight(9)}" +                                          //10
+                                $" {TicketHandlerUtils.FormatAsMoney(line.Quantity).ToString().PadLeft(5)}" +    //6
+                                $" {String.Format("{0:0.00}", line.PrecioUnitario).PadLeft(9)}" +                //10
+                                $" {line.PorcentajeDescuento.ToString().PadLeft(7)}" +                           //8
+                                $" {line.ImporteDescuento.ToString().PadLeft(7)}" +                              //8
+                                $" {String.Format("{0:0.0}", double.Parse(line.Impuesto) * 100).PadLeft(5)}" +   //6
+                                $" {String.Format("{0:0.00}", TicketHandlerUtils.FormatAsMoney(line.Importe)).PadLeft(11)}",   //12
+                                1);
+                        }
                     });
                 }
                 stream.TextoNegrita();
-                stream.SeparatorTecMovil();
+                stream.SeparatorTecMovil(printer01);
                 stream.TextoDefecto();
                 //stream.WriteLn("", 4);
-                var importSubTotal = $"SUBTOTAL: {((ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + String.Format("{0:0.00}", ticket.DocumentHeader.Importe)).PadLeft(9)} €";
-
                 //stream.TextoNegrita();
                 //stream.WriteLn($"{importSubTotal}€\u20AC\u000A\u00A0\u0028\u0082\u2082\u2028", 1);
-                stream.WriteLn($"{importSubTotal.PadLeft(67)}", 1);            
+                var importSubTotal = $"SUBTOTAL: {((ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + String.Format("{0:0.00}", ticket.DocumentHeader.Importe)).PadLeft(9)} €";
+                if (printer01 == "001")
+                {
+                    stream.WriteLn($"{importSubTotal.PadLeft(67)}", 1);
+                }
+                else if(printer01 == "002")
+                {
+                    stream.WriteLn($"{importSubTotal.PadLeft(58)}", 1);
+                }
 
                 stream.TextoDefecto();
                 //stream.SeparatorTecMovil();
@@ -602,9 +636,18 @@ namespace TicketHandler
                     });
                 }
 
-                stream.WriteLn($"    IGIC: {((ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + String.Format("{0:0.00}", ticket.DocumentHeader.ImporteImpuesto)).PadLeft(9)} €".PadLeft(67), 1);
-                stream.TextoNegrita();
-                stream.WriteLn($"   TOTAL: {((ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + String.Format("{0:0.00}", ticket.DocumentHeader.ImporteTotal)).PadLeft(9)} €".PadLeft(67), 1);
+                if (printer01 == "001")
+                {
+                    stream.WriteLn($"    IGIC: {((ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + String.Format("{0:0.00}", ticket.DocumentHeader.ImporteImpuesto)).PadLeft(9)} €".PadLeft(67), 1);
+                    stream.TextoNegrita();
+                    stream.WriteLn($"   TOTAL: {((ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + String.Format("{0:0.00}", ticket.DocumentHeader.ImporteTotal)).PadLeft(9)} €".PadLeft(67), 1);
+                }
+                else if (printer01 == "002")
+                {
+                    stream.WriteLn($"    IGIC: {((ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + String.Format("{0:0.00}", ticket.DocumentHeader.ImporteImpuesto)).PadLeft(9)} €".PadLeft(58), 1);
+                    stream.TextoNegrita();
+                    stream.WriteLn($"   TOTAL: {((ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + String.Format("{0:0.00}", ticket.DocumentHeader.ImporteTotal)).PadLeft(9)} €".PadLeft(58), 1);
+                }
 
                 if (ticket.DocumentPayments != null)
                 {
