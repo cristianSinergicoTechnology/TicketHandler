@@ -13,6 +13,7 @@ namespace TicketHandler.modelo
         public string CardCode { get; set; } = "";
         public string CardName { get; set; } = "";
         public string Address { get; set; } = "";
+        public string AddressEntrega { get; set; } = "";
         public string ZipCode { get; set; } = "";
         public string Phone1 { get; set; } = "";
         public string Phone2 { get; set; } = "";

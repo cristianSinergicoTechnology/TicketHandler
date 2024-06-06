@@ -18,6 +18,8 @@ namespace TicketHandler
 
         public static Dictionary<string, object> printTicketTecMovil(Document doc, InfoEmpresa infoEmpresa, List<ViaPago> viasPago, Cliente cliente, bool proforma, string empleado, string printer01, bool printFooter = false, bool test = false)
         {
+            //proforma = true;      //En TecMóvil sólo se imprimen las facturas/abonos
+            bool bFactura = true; //En TecMóvil sólo se imprimen las facturas/abonos
             try
             {
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -60,10 +62,10 @@ namespace TicketHandler
 
                 printer.TextoNegrita();
                 printer.TextoCentradoIzquierda();
-                printer.Write(GetBytes(doc.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "Factura resctificativa: " : "Factura: "));
+                printer.Write(GetBytes(doc.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "Factura rectificativa: " : "Factura: "));
                 printer.WriteLn($"{doc.DocumentHeader.NumeroFactura} {infoEmpresa.FechaCreacion}", 1);
                 printer.TextoDefecto();
-                printer.Write(GetBytes("Ticket: "));
+                printer.Write(GetBytes((doc.DocumentHeader.TipoDocumento == "TI" || doc.DocumentHeader.TipoDocumento == "TA") ? "Numero seguimiento interno: " : "Ticket: "));
                 printer.TextoDefecto();
                 printer.WriteLn($"{doc.DocumentHeader.IDTicket} {infoEmpresa.FechaCreacion} {infoEmpresa.HoraCreacion}", 2);
 
@@ -72,12 +74,25 @@ namespace TicketHandler
                 printer.TextoDefecto();
                 printer.WriteLn(empleado, 2);
 
-                var linesToSkip = proforma ? 1 : 2;
-                printer.WriteLn($"Cliente: {cliente.CardName}", linesToSkip);
-                if (proforma)
+                printer.TextoNegrita();
+                printer.WriteLn($"Cliente {cliente.CardCode}", 1);
+                printer.TextoDefecto();
+                var linesToSkip = (proforma || bFactura) ? 1 : 2;
+                printer.WriteLn($"Nombre Fiscal: {cliente.CardName}", linesToSkip);
+                if ((cliente.CardForeignName != null) && (cliente.CardName != cliente.CardForeignName) && (cliente.CardForeignName != ""))
                 {
+                    printer.WriteLn($"Nombre comercial: {cliente.CardForeignName}", 1);
+                }
+                //printer.WriteLn($"Cliente: {cliente.CardName}", linesToSkip);
+                if (proforma || bFactura)
+                {
+                    //printer.WriteLn($"Comercio: {cliente.}", 1);
                     printer.WriteLn($"NIF: {cliente.FederalTaxId}", 1);
-                    printer.WriteLn($"Dirección: {cliente.Address}", 1);
+                    printer.WriteLn($"Dirección Fiscal: {cliente.Address}", 1);
+                }
+                if ((cliente.AddressEntrega != null) && (cliente.AddressEntrega != ""))
+                {
+                    printer.WriteLn($"Dirección de Entrega: {cliente.AddressEntrega}", 1);
                 }
 
                 printer.TextoDefecto();
