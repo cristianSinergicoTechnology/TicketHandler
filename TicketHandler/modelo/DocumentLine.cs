@@ -29,6 +29,6 @@ namespace TicketHandler.modelo
         public string CreateTime { get; set; }
         public string UpdateDate { get; set; }
         public string UpdateTime { get; set; }
-
+        public string Alias { get; set; } = null;
     }
 }

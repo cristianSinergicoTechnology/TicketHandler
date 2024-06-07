@@ -483,7 +483,7 @@ namespace TicketHandler
             if (ticket.DocumentHeader.ImportePromocion > 0.0)
             {
                 ticket.DocumentLines.ForEach(line => {
-                    string itemName = new string(line.ItemName.Take(16).ToArray());
+                    string itemName = line.Alias != null ? new string(line.Alias.Take(16).ToArray()) : new string(line.ItemName.Take(16).ToArray());
                     stream.WriteLn($" {line.Quantity}  ${itemName.PadRight(20)}", 1);
 
                     if (mostrarCodigoArticulo)
@@ -497,7 +497,7 @@ namespace TicketHandler
             {
                 ticket.DocumentLines.ForEach(line =>
                 {
-                    string itemName = new string(line.ItemName.Take(16).ToArray());
+                    string itemName = line.Alias != null ? new string(line.Alias.Take(16).ToArray()) : new string(line.ItemName.Take(16).ToArray());
                     stream.WriteLn($" {line.Quantity}  " +
                         $"{itemName.PadRight(20)} " +
                         $"{TicketHandlerUtils.FormatAsMoney(line.PrecioUnitario).ToString().PadLeft(12)} " +
@@ -580,9 +580,10 @@ namespace TicketHandler
                 {
                     ticket.DocumentLines.ForEach(line =>
                     {
+                        string itemName = line.Alias != null ? line.Alias : line.ItemName;
                         string UoM = new string(line.UoM.Take(17).ToArray());
                         stream.TextoNegrita();
-                        stream.WriteLn($"{line.ItemCode}   {line.ItemName}", 1);
+                        stream.WriteLn($"{line.ItemCode}   {itemName}", 1);
                         stream.TextoDefecto();
                         if (printer01 == "001")
                         {
