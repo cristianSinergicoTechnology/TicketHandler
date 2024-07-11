@@ -14,7 +14,7 @@ namespace TicketHandler.modelo
         public string HoraCreacion { get; set; }
         public string NIF { get; set; }
         public string Telefono { get; set; }
-        public Dictionary<string, bool> Footer { get; set; }
+        public string Footer { get; set; }
 
     }
 }

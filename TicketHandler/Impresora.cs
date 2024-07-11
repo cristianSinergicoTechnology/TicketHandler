@@ -9,6 +9,8 @@ using TicketHandler.modelo;
 using TicketHandler.utils;
 using System.Runtime.CompilerServices;
 using System.Net.Sockets;
+using System.Xml;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace TicketHandler
 {
@@ -102,7 +104,7 @@ namespace TicketHandler
 
                 if (printFooter)
                 {
-                    printer.PrintFooter(footerLines);
+                    printer.PrintCompanyText(footerLines);
 
                     printer.SkipLines(3);
 
@@ -115,11 +117,8 @@ namespace TicketHandler
 
                 // Rellanamos 5 filas para que no se corte información de la factura
                 printer.SkipLines(5);
-                //if (test)
-                    printer.CortarFacturaTecPV();
-                //else
-                //    printer.CortarFacturaTecMovil();
-
+                
+                printer.CortarFacturaTecPV();
                 printer.Close();
 
                 return loadContent(printer.ToArray());
@@ -136,7 +135,7 @@ namespace TicketHandler
             }
         }
 
-        public static Dictionary<string, object> printTicketTecPV(Document doc, InfoEmpresa infoEmpresa, List<ViaPago> viasPago, Cliente cliente, bool proforma, string empleado, bool mostrarCodigoArticulo = false, bool printFooter = true)
+        public static Dictionary<string, object> printTicketTecPV(Document doc, InfoEmpresa infoEmpresa, List<ViaPago> viasPago, Cliente cliente, bool proforma, string empleado, bool mostrarCodigoArticulo = false, bool printFooter = true, bool printRegalo = false)
         {
             try
             {
@@ -148,7 +147,7 @@ namespace TicketHandler
 
                 printer.InicializarImpresora();
                 printer.CambiarCodePageTecPV();
-                printer.SeleccionarIdioma();
+                //printer.SeleccionarIdioma();
                 printer.TituloFactura();
                 printer.CentrarTexto();
                 #region TICKET HEADER
@@ -179,29 +178,30 @@ namespace TicketHandler
                 printer.TextoCentradoIzquierda();
                 printer.Write(GetBytes("Ticket: "));
                 printer.TextoDefecto();
-                printer.WriteLn($"{doc.DocumentHeader.IDTicket} {infoEmpresa.FechaCreacion} {infoEmpresa.HoraCreacion}", 2);
+                printer.WriteLn($"{doc.DocumentHeader.IDTicket} {infoEmpresa.FechaCreacion} {infoEmpresa.HoraCreacion}", 2,true);
 
                 printer.TextoNegrita();
                 printer.Write(GetBytes("Le ha atendido: "));
                 printer.TextoDefecto();
-                printer.WriteLn(empleado, 2);
+                printer.WriteLn(empleado, 2, true);
 
                 var linesToSkip = proforma ? 1 : 2;
-                printer.WriteLn($"Cliente: {cliente.CardName}", linesToSkip);
+                printer.WriteLn($"Cliente: {cliente.CardName}", linesToSkip, true);
                 if (proforma)
                 {
-                    printer.WriteLn($"NIF: {cliente.FederalTaxId}", 1);
-                    printer.WriteLn($"Dirección: {cliente.Address}", 1);
+                    printer.WriteLn($"NIF: {cliente.FederalTaxId}", 1, true );
+                    printer.WriteLn($"Dirección: {cliente.Address}", 1, true);
                 }
 
-                printer.PrintProductsAndPaymentsTecPV(doc, viasPago, mostrarCodigoArticulo);
+                printer.PrintProductsAndPaymentsTecPV(doc, viasPago, mostrarCodigoArticulo, printRegalo);
 
                 if (printFooter)
                 {
-                    printer.PrintFooter(footerLines);
+                    printer.PrintCompanyText(footerLines);
 
                     printer.SkipLines(3);
 
+                    printer.CentrarTexto();
                     printer.PrintBarcode(doc);
                 }
 
@@ -258,10 +258,14 @@ namespace TicketHandler
         /// <param name="stream"></param>
         /// <param name="content"></param>
         /// <param name="linesToSkip"></param>
-        private static void WriteLn(this MemoryStream stream, string content, int linesToSkip)
+        private static void WriteLn(this MemoryStream stream, string content, int linesToSkip, bool tecPV = false)
         {
-            //stream.Write(Encoding.GetEncoding(858).GetBytes(content));
-            stream.Write(Encoding.GetEncoding(858).GetBytes(content.Replace("ü","u").Replace("Ñ", "N").Replace("ñ", "n").Replace("€", "eur").
+            if (tecPV)
+            {
+                stream.Write(Encoding.GetEncoding("Windows-1252").GetBytes(content));
+            }
+            else
+                stream.Write(Encoding.GetEncoding(858).GetBytes(content.Replace("ü","u").Replace("Ñ", "N").Replace("ñ", "n").Replace("€", "eur").
                                                                     Replace("á", "a").Replace("é", "e").Replace("í", "i").Replace("ó", "o").Replace("ú", "u").
                                                                     Replace("Á", "A").Replace("É", "E").Replace("Í", "I").Replace("Ó", "O").Replace("Ú", "U")));
             SkipLines(stream, linesToSkip);
@@ -288,7 +292,7 @@ namespace TicketHandler
         {
             stream.Write(TecPVCommands.ESC);
             stream.Write(GetBytes('t'));
-            stream.Write(GetBytes(19));
+            stream.Write(GetBytes(16));
         }
 
         /// <summary>
@@ -467,29 +471,46 @@ namespace TicketHandler
         }
 
 
+        private static void PrintProductTecPV(this MemoryStream stream,DocumentLine line,bool mostrarCodigoArticulo, bool printRegalo)
+        {
+            if (!printRegalo && (line.Importe == 0.0 || line.PorcentajeDescuento == 100.00)) return;
+            
+            string itemName = line.Alias != null ? new string(line.Alias.Take(16).ToArray()) : new string(line.ItemName.Take(16).ToArray());
+            string importe = (TicketHandlerUtils.FormatAsMoney(line.Importe) + "€").PadLeft(8);
+            string descuento = line.PorcentajeDescuento < 100.00 ? "" : $"- Descuento: -{TicketHandlerUtils.FormatAsMoney(line.ImporteDescuento)}€".PadLeft(30);
+
+            string linea = $" {line.Quantity}  {itemName.PadRight(20)}" + $"{TicketHandlerUtils.FormatAsMoney(line.PrecioUnitario).PadLeft(13)} " + importe;
+
+            stream.WriteLn(linea,1, true);
+
+            if (mostrarCodigoArticulo)
+            {
+                stream.WriteLn($"{line.ItemCode.PadLeft(15)}", 1,true);
+            }
+            if (descuento.Length > 0)
+            {
+                stream.WriteLn(descuento, 1,true);
+            }            
+        }
+
         /// <summary>
         /// Función para imprimir los productos, vías de pago e importes de TECPV
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="ticket"></param>
         /// <param name="viasPago"></param>
-        private static void PrintProductsAndPaymentsTecPV(this MemoryStream stream, Document ticket, List<ViaPago> viasPago, bool mostrarCodigoArticulo)
+        private static void PrintProductsAndPaymentsTecPV(this MemoryStream stream, Document ticket, List<ViaPago> viasPago, bool mostrarCodigoArticulo, bool printRegalo)
         {
 
             stream.TextoNegrita();
-            stream.WriteLn($"{"UDS DESCRIPCION".PadRight(33)}PRECIO IMPORTE", 1);
+            stream.WriteLn($"{"UDS DESCRIPCION".PadRight(33)}PRECIO IMPORTE", 1, true);
             stream.TextoDefecto();
-            stream.WriteLn($"{"".PadLeft(47, '=')}", 1);
+            stream.WriteLn($"{"".PadLeft(47, '=')}", 1, true);
             if (ticket.DocumentHeader.ImportePromocion > 0.0)
             {
-                ticket.DocumentLines.ForEach(line => {
-                    string itemName = line.Alias != null ? new string(line.Alias.Take(16).ToArray()) : new string(line.ItemName.Take(16).ToArray());
-                    stream.WriteLn($" {line.Quantity}  ${itemName.PadRight(20)}", 1);
-
-                    if (mostrarCodigoArticulo)
-                    {
-                        stream.WriteLn($"{line.ItemCode.PadLeft(15)}", 1);
-                    }
+                ticket.DocumentLines.ForEach(line =>
+                {
+                    stream.PrintProductTecPV(line, mostrarCodigoArticulo, printRegalo);
                 });
 
             }
@@ -500,32 +521,28 @@ namespace TicketHandler
                     string itemName = line.Alias != null ? new string(line.Alias.Take(16).ToArray()) : new string(line.ItemName.Take(16).ToArray());
                     stream.WriteLn($" {line.Quantity}  " +
                         $"{itemName.PadRight(20)} " +
-                        $"{TicketHandlerUtils.FormatAsMoney(line.PrecioUnitario).ToString().PadLeft(12)} " +
-                        TicketHandlerUtils.FormatAsMoney(line.Importe).ToString().PadLeft(7),
-                        1);
+                        $"{TicketHandlerUtils.FormatAsMoney(line.PrecioUnitario).PadLeft(12)} " +
+                        (TicketHandlerUtils.FormatAsMoney(line.Importe) + "€").PadLeft(8),
+                        1, true);
 
                     if (mostrarCodigoArticulo)
                     {
-                        stream.WriteLn(line.ItemCode.PadLeft(15), 1);
+                        stream.WriteLn(line.ItemCode.PadLeft(15), 1, true);
                     }
                 });
             }
             stream.TextoDefecto();
-            stream.WriteLn($"{"".PadLeft(47, '=')}", 1);
+            stream.WriteLn($"{"".PadLeft(47, '=')}", 1, true);
 
-            var tipoDocumento = "SUBTOTAL:".PadLeft(30) + ((ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.ImporteTotal.ToString()).PadLeft(15);
-
-            stream.TextoNegrita();
-            stream.Write(GetBytes(tipoDocumento));
-            stream.Write(Euro());
-
-            stream.WriteLn("", 2);
-
-            var importeTotal = "TOTAL:".PadLeft(30) + ((ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.ImporteTotal.ToString()).PadLeft(15);
+            var tipoDocumento = "SUBTOTAL:".PadLeft(30) + ((ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.ImporteTotal.ToString() + "€").PadLeft(16);
 
             stream.TextoNegrita();
-            stream.Write(GetBytes(importeTotal));
-            stream.Write(Euro());
+            stream.WriteLn(tipoDocumento, 2,true);
+
+            var importeTotal = "TOTAL:".PadLeft(30) + ((ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + ticket.DocumentHeader.ImporteTotal.ToString() + "€").PadLeft(16);
+
+            stream.TextoNegrita();
+            stream.WriteLn(importeTotal, 2, true);
             stream.TextoDefecto();
 
             stream.SkipLines(2);
@@ -534,21 +551,18 @@ namespace TicketHandler
                 ViaPago viaPago = viasPago.FirstOrDefault(paymentType => payment.EntryViaPago == paymentType.CreditCard);
                 if (viaPago != null)
                 {
-                    var pago = (viaPago.Nombre.ToUpper().PadLeft(30) + (((ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + payment.Importe.ToString())).PadLeft(15));
-                    stream.Write(GetBytes(pago));
-                    stream.Write(Euro());
+                    var pago = (viaPago.Nombre.ToUpper().PadLeft(30) + (((ticket.DocumentHeader.TipoDocumento == DOCTYPE_ABONO ? "-" : "") + payment.Importe.ToString() + "€")).PadLeft(16));
+                    stream.WriteLn(pago, 1, true);
                 }
                 stream.SkipLines(1);
-                var entregado = "ENTREGADO: ".PadLeft(30) + payment.Entregado.ToString().PadLeft(15);
-                stream.Write(GetBytes(entregado));
-                stream.Write(Euro());
-                stream.SkipLines(1);
+                
+                var entregado = "ENTREGADO: ".PadLeft(30) + (payment.Entregado.ToString() + "€").PadLeft(16);
+                stream.WriteLn(entregado, 1, true);
+
                 if (payment.Cambio != 0.0)
                 {
-                    var cambio = "CAMBIO: ".PadLeft(30) + payment.Cambio.ToString().PadLeft(15);
-                    stream.Write(GetBytes(cambio));
-                    stream.Write(Euro());
-                    stream.SkipLines(1);
+                    var cambio = "CAMBIO: ".PadLeft(30) + (payment.Cambio.ToString() + "€").PadLeft(16);
+                    stream.WriteLn(cambio, 1, true);
                 }
             });
 
@@ -588,7 +602,7 @@ namespace TicketHandler
                         if (printer01 == "001")
                         {
                             stream.WriteLn($" {line.UoM.PadRight(16)}" +                                         //17
-                                $" {TicketHandlerUtils.FormatAsMoney(line.Quantity).ToString().PadLeft(7)}" +    //8
+                                $" {TicketHandlerUtils.FormatAsMoney(line.Quantity).PadLeft(7)}" +    //8
                                 $" {String.Format("{0:0.00}", line.PrecioUnitario).PadLeft(9)}" +                //10
                                 $" {line.PorcentajeDescuento.ToString().PadLeft(7)}" +                           //8
                                 $" {line.ImporteDescuento.ToString().PadLeft(7)}" +                              //8
@@ -599,7 +613,7 @@ namespace TicketHandler
                         else if (printer01 == "002")
                         {
                             stream.WriteLn($" {line.UoM.PadRight(9)}" +                                          //10
-                                $" {TicketHandlerUtils.FormatAsMoney(line.Quantity).ToString().PadLeft(5)}" +    //6
+                                $" {TicketHandlerUtils.FormatAsMoney(line.Quantity).PadLeft(5)}" +    //6
                                 $" {String.Format("{0:0.00}", line.PrecioUnitario).PadLeft(9)}" +                //10
                                 $" {line.PorcentajeDescuento.ToString().PadLeft(7)}" +                           //8
                                 $" {line.ImporteDescuento.ToString().PadLeft(7)}" +                              //8
@@ -695,6 +709,84 @@ namespace TicketHandler
             }
         }
 
+        /// <summary>
+        /// Función para imprimir el pie de empresa, para TECMOVIL y TECPV
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="text"></param>
+        public static void PrintCompanyText(this MemoryStream stream, string text)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(text);
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Indent = true;
+
+            XmlWriter writer = XmlWriter.Create("contenido.xml", settings);
+            doc.Save(writer);
+            writer.Close();
+
+            XmlReader reader = XmlReader.Create("contenido.xml");
+            while (reader.Read())
+            {
+                if (reader.NodeType == XmlNodeType.Whitespace) continue;
+                if (reader.NodeType == XmlNodeType.Element)
+                {
+                    switch (reader.Name)
+                    {
+                        case LINEA:
+                            var content = reader.ReadElementContentAsString();
+                            stream.WriteLn(content, 1, true);
+                            break;
+                        case NEGRITA:
+                            stream.TextoNegrita();
+                            break;
+                        case SALTO_LINEA:
+                            stream.SkipLines(1);
+                            break;
+                        case CENTRAR:
+                            stream.CentrarTexto();
+                            break;
+
+                    }
+                }
+                if(reader.NodeType == XmlNodeType.EndElement)
+                {
+                    if (reader.Name.Equals(LINEA)) continue;
+                    if (reader.Name.Equals(CENTRAR)) stream.TextoCentradoIzquierda();
+                    stream.TextoDefecto();
+                    
+                }
+            }
+            reader.Close();
+            File.Delete("contenido.xml");
+        }
+
+        public static Dictionary<string, object> TestPrintFooter(string text)
+        {
+            var printer = new MemoryStream();
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            printer.InicializarImpresora();
+            printer.CambiarCodePageTecPV();
+            //printer.SeleccionarIdioma();
+            printer.PrintCompanyText(text);
+            // Rellanamos 5 filas para que no se corte información de la factura
+            printer.SkipLines(5);
+            printer.CortarFacturaTecPV();
+            
+            printer.Close();
+
+            return loadContent(printer.ToArray());
+        }
+
+
+        #region Constantes XML
+        const string LINEA = "linea";
+        const string NEGRITA = "b";
+        const string SALTO_LINEA = "br";
+        const string CENTRAR = "center";
+        #endregion
+
+
         #region FUNCIONES MAPPER BYTES
 
         private static byte[] GetBytes(char letra)
@@ -718,6 +810,13 @@ namespace TicketHandler
             var euroBytes = Encoding.GetEncoding(858).GetBytes(euro.ToString());
             //byte[] euroBytes = { 0xA4 };
             return euroBytes;
+        }
+
+        private static string Arroba()
+        {
+            char arroba = '@';
+            byte[] res = Encoding.GetEncoding("windows-1252").GetBytes(arroba.ToString());
+            return Encoding.GetEncoding("windows-1252").GetString(res);
         }
 
         private static void Write(this MemoryStream stream, byte[] content)
