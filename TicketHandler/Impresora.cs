@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Net.Sockets;
 using System.Xml;
 using System.Runtime.InteropServices.ComTypes;
+using System.Runtime.Remoting.Messaging;
 
 namespace TicketHandler
 {
@@ -716,49 +717,40 @@ namespace TicketHandler
         /// <param name="text"></param>
         public static void PrintCompanyText(this MemoryStream stream, string text)
         {
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(text);
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Indent = true;
-
-            XmlWriter writer = XmlWriter.Create("contenido.xml", settings);
-            doc.Save(writer);
-            writer.Close();
-
-            XmlReader reader = XmlReader.Create("contenido.xml");
-            while (reader.Read())
+            using (XmlReader reader = XmlReader.Create(new System.IO.StringReader(text)))
             {
-                if (reader.NodeType == XmlNodeType.Whitespace) continue;
-                if (reader.NodeType == XmlNodeType.Element)
+                while (reader.Read())
                 {
-                    switch (reader.Name)
+                    if (reader.NodeType == XmlNodeType.Whitespace) continue;
+                    if (reader.NodeType == XmlNodeType.Element)
                     {
-                        case LINEA:
-                            var content = reader.ReadElementContentAsString();
-                            stream.WriteLn(content, 1, true);
-                            break;
-                        case NEGRITA:
-                            stream.TextoNegrita();
-                            break;
-                        case SALTO_LINEA:
-                            stream.SkipLines(1);
-                            break;
-                        case CENTRAR:
-                            stream.CentrarTexto();
-                            break;
+                        switch (reader.Name)
+                        {
+                            case LINEA:
+                                var content = reader.ReadElementContentAsString();
+                                stream.WriteLn(content, 1, true);
+                                break;
+                            case NEGRITA:
+                                stream.TextoNegrita();
+                                break;
+                            case SALTO_LINEA:
+                                stream.SkipLines(1);
+                                break;
+                            case CENTRAR:
+                                stream.CentrarTexto();
+                                break;
 
+                        }
+                    }
+                    if (reader.NodeType == XmlNodeType.EndElement)
+                    {
+                        if (reader.Name.Equals(LINEA)) continue;
+                        if (reader.Name.Equals(CENTRAR)) stream.TextoCentradoIzquierda();
+                        stream.TextoDefecto();
                     }
                 }
-                if(reader.NodeType == XmlNodeType.EndElement)
-                {
-                    if (reader.Name.Equals(LINEA)) continue;
-                    if (reader.Name.Equals(CENTRAR)) stream.TextoCentradoIzquierda();
-                    stream.TextoDefecto();
-                    
-                }
+                reader.Close();
             }
-            reader.Close();
-            File.Delete("contenido.xml");
         }
 
         public static Dictionary<string, object> TestPrintFooter(string text)
