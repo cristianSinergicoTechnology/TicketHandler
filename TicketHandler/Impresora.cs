@@ -480,24 +480,42 @@ namespace TicketHandler
 
         private static void PrintProductTecPV(this MemoryStream stream,DocumentLine line,bool mostrarCodigoArticulo, bool printRegalo)
         {
-            if (!printRegalo && (line.Importe == 0.0 || line.PorcentajeDescuento == 100.00)) return;
-            
-            string itemName = line.Alias != null ? new string(line.Alias.Take(16).ToArray()) : new string(line.ItemName.Take(16).ToArray());
-            string importe = (TicketHandlerUtils.FormatAsMoney(line.Importe) + "€").PadLeft(8);
-            string descuento = line.PorcentajeDescuento < 100.00 ? "" : $"- Descuento: -{TicketHandlerUtils.FormatAsMoney(line.ImporteDescuento)}€".PadLeft(30);
-
-            string linea = $" {line.Quantity}  {itemName.PadRight(20)}" + $"{TicketHandlerUtils.FormatAsMoney(line.PrecioUnitario).PadLeft(13)} " + importe;
-
-            stream.WriteLn(linea,1, true);
-
-            if (mostrarCodigoArticulo)
+            if (!printRegalo && (line.Importe == 0.0 || line.PorcentajeDescuento == 100.00))
             {
-                stream.WriteLn($"{line.ItemCode.PadLeft(15)}", 1,true);
+                // Lo que había antes
+                string itemName = line.Alias != null ? new string(line.Alias.Take(16).ToArray()) : new string(line.ItemName.Take(16).ToArray());
+                stream.WriteLn($" {line.Quantity}  " +
+                    $"{itemName.PadRight(20)} " +
+                    $"{TicketHandlerUtils.FormatAsMoney(line.PrecioUnitario).PadLeft(12)} " +
+                    (TicketHandlerUtils.FormatAsMoney(line.Importe) + "€").PadLeft(8),
+                    1, true);
+
+                if (mostrarCodigoArticulo)
+                {
+                    stream.WriteLn(line.ItemCode.PadLeft(15), 1, true);
+                }
+
             }
-            if (descuento.Length > 0)
+            else
             {
-                stream.WriteLn(descuento, 1,true);
-            }            
+                // Lo nuevo de hoy
+                string itemName = line.Alias != null ? new string(line.Alias.Take(16).ToArray()) : new string(line.ItemName.Take(16).ToArray());
+                string importe = (TicketHandlerUtils.FormatAsMoney(line.Importe) + "€").PadLeft(8);
+                string descuento = line.PorcentajeDescuento < 100.00 ? "" : $"- Descuento: -{TicketHandlerUtils.FormatAsMoney(line.ImporteDescuento)}€".PadLeft(30);
+
+                string linea = $" {line.Quantity}  {itemName.PadRight(20)}" + $"{TicketHandlerUtils.FormatAsMoney(line.PrecioUnitario).PadLeft(13)} " + importe;
+
+                stream.WriteLn(linea, 1, true);
+
+                if (mostrarCodigoArticulo)
+                {
+                    stream.WriteLn($"{line.ItemCode.PadLeft(15)}", 1, true);
+                }
+                if (descuento.Length > 0)
+                {
+                    stream.WriteLn(descuento, 1, true);
+                }
+            }
         }
 
         /// <summary>
@@ -513,14 +531,14 @@ namespace TicketHandler
             stream.WriteLn($"{"UDS DESCRIPCION".PadRight(33)}PRECIO IMPORTE", 1, true);
             stream.TextoDefecto();
             stream.WriteLn($"{"".PadLeft(47, '=')}", 1, true);
-            if (ticket.DocumentHeader.ImportePromocion > 0.0)
-            {
+            //if (ticket.DocumentHeader.ImportePromocion > 0.0)
+            //{
                 ticket.DocumentLines.ForEach(line =>
                 {
                     stream.PrintProductTecPV(line, mostrarCodigoArticulo, printRegalo);
                 });
 
-            }
+            /*}
             else
             {
                 ticket.DocumentLines.ForEach(line =>
@@ -537,7 +555,7 @@ namespace TicketHandler
                         stream.WriteLn(line.ItemCode.PadLeft(15), 1, true);
                     }
                 });
-            }
+            }*/
             stream.TextoDefecto();
             stream.WriteLn($"{"".PadLeft(47, '=')}", 1, true);
 
