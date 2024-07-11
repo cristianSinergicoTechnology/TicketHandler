@@ -104,7 +104,10 @@ namespace TicketHandler
 
                 if (printFooter)
                 {
-                    printer.PrintCompanyText(footerLines);
+                    if(footerLines != null)
+                    {
+                        printer.PrintCompanyText(footerLines);
+                    }
 
                     printer.SkipLines(3);
 
